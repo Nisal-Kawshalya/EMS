@@ -16,7 +16,7 @@ namespace EMS.Models
 
         [Required(ErrorMessage = "Name can not empty")]
         [StringLength(100, MinimumLength = 5)]
-        [Display(Name = "Enter Full Name")]
+        [Display(Name = "Enter  Your Full Name")]
         public string Name { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "PhoneNumber can not be empty")]

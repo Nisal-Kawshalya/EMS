@@ -1,8 +1,8 @@
 using System.Diagnostics;
-using EduPluse.Models;
+using EMS.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EduPluse.Controllers
+namespace EMS.Controllers
 {
     public class HomeController : Controller
     {

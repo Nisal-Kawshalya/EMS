@@ -1,4 +1,3 @@
-using EMS.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,9 +26,6 @@ else
     connectionString = $"Data Source={dbPath}";
 }
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString)
-);
 
 
 builder.Services.AddSession(options =>
@@ -64,10 +60,6 @@ app.MapControllerRoute(
 
 
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.Migrate(); 
-}
+
 
 app.Run();

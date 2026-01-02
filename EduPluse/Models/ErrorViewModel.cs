@@ -1,4 +1,4 @@
-namespace EduPluse.Models
+namespace EMS.Models
 {
     public class ErrorViewModel
     {

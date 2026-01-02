@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using EMS.Data;
+﻿using EMS.Data;
 using EMS.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 public class ClassController : Controller
 {
@@ -32,5 +33,16 @@ public class ClassController : Controller
         _context.SaveChanges();
 
         return RedirectToAction("Dashboard", "Teacher");
+    }
+
+    public IActionResult Details(int id)
+    {
+        var cls = _context.Classes
+            .Include(c => c.ClassStudents)
+                .ThenInclude(cs => cs.Student)
+            .FirstOrDefault(c => c.Id == id);
+
+        ViewBag.ActiveTab = "Attendance";
+        return View(cls);
     }
 }

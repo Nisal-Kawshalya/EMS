@@ -4,31 +4,35 @@
     ViewData["Title"] = "Create Class";
 }
 
-<div class="container mt-4">
-    <h3>Create New Class</h3>
+<link rel="stylesheet" href="~/css/class-create.css" />
 
-    <form asp-action="Create" method="post" class="mt-3">
+<div class="container class-create-container">
+    <h3 class="page-title">Create New Class</h3>
 
-        <div class="mb-3">
+    <form asp-action="Create" method="post" class="class-form">
+
+        <div class="form-group mb-4">
             <label asp-for="Grade" class="form-label"></label>
             <input asp-for="Grade" class="form-control" />
             <span asp-validation-for="Grade" class="text-danger"></span>
         </div>
 
-        <div class="mb-3">
+        <div class="form-group mb-4">
             <label asp-for="Place" class="form-label"></label>
             <input asp-for="Place" class="form-control" />
             <span asp-validation-for="Place" class="text-danger"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary">
-            Create Class
-        </button>
+        <div class="button-group">
+            <button type="submit" class="btn btn-primary">
+                Create Class
+            </button>
 
-        <a asp-controller="Teacher"
-           asp-action="Dashboard"
-           class="btn btn-secondary ms-2">
-            Cancel
-        </a>
+            <a asp-controller="Teacher"
+               asp-action="Dashboard"
+               class="btn btn-secondary ms-2">
+                Cancel
+            </a>
+        </div>
     </form>
 </div>

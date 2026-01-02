@@ -17,7 +17,18 @@ namespace EMS.Models
         [StringLength(100, ErrorMessage = "Place can not exceed 100 characters")]
         public required string Place { get; set; }
 
+        [ForeignKey("TeacherId")]
+        public Teacher? Teacher { get; set; }
+
+
         public ICollection<ClassStudent>? ClassStudents { get; set; } = new List<ClassStudent>();
+
+        public ICollection<Result>? Results { get; set; } = new List<Result>();
+        public ICollection<Attendence>? Attendences { get; set; } = new List<Attendence>();
+
+        public ICollection<Note>? Notes { get; set; } = new List<Note>();
+        public ICollection<Homework>? Homeworks { get; set; } = new List<Homework>();
+
 
 
 

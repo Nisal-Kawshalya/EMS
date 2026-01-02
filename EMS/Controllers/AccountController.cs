@@ -28,7 +28,7 @@ namespace EMS.Controllers
                 string.IsNullOrWhiteSpace(name) ||
                 string.IsNullOrWhiteSpace(phone))
             {
-                ViewBag.Error = "All fields are required";
+                ViewBag.Error = "All field are required";
                 return View();
             }
 

@@ -22,6 +22,8 @@ namespace EMS.Models
         public Student? Student { get; set; }
         public Teacher? Teacher { get; set; }
 
+        
+
 
     }
 }

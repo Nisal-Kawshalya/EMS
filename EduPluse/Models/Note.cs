@@ -24,5 +24,9 @@ namespace EMS.Models
         [Required]
         public DateTime Createddate { get; set; }
 
+
+        [ForeignKey("ClassId")]
+        public Class? Class { get; set; }
+
     }
 }

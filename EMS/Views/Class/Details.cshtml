@@ -26,12 +26,14 @@
     <!-- Tabs -->
     <ul class="nav nav-tabs mb-3">
 
+        <!-- Attendance (DEFAULT) -->
         <li class="nav-item">
             <a class="nav-link active">
                 Attendance
             </a>
         </li>
 
+        <!-- Homework -->
         <li class="nav-item">
             <a class="nav-link"
                asp-controller="Homework"
@@ -41,6 +43,7 @@
             </a>
         </li>
 
+        <!-- Notes -->
         <li class="nav-item">
             <a class="nav-link"
                asp-controller="Notes"
@@ -50,14 +53,22 @@
             </a>
         </li>
 
+        <!-- Results (NOW ENABLED) -->
         <li class="nav-item">
-            <a class="nav-link disabled">
+            <a class="nav-link"
+               asp-controller="Results"
+               asp-action="Index"
+               asp-route-classId="@Model.Id">
                 Results
             </a>
         </li>
 
+        <!-- Students (READY FOR NEXT STEP) -->
         <li class="nav-item">
-            <a class="nav-link disabled">
+            <a class="nav-link"
+               asp-controller="Students"
+               asp-action="Index"
+               asp-route-classId="@Model.Id">
                 Students
             </a>
         </li>

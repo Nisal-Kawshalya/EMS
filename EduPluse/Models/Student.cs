@@ -27,5 +27,10 @@ namespace EMS.Models
         [ForeignKey("UserId")]
         public User? User { get; set; }
 
+
+        public ICollection<ClassStudent>? ClassStudents { get; set; } = new List<ClassStudent>();
+        public ICollection<Attendence>? Attendences { get; set; } = new List<Attendence>();
+        public ICollection<Result>? Results { get; set; } = new List<Result>();
+
     }
 }

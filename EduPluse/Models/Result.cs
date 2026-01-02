@@ -29,6 +29,7 @@ namespace EMS.Models
         public Class? Class { get; set; }
 
 
-
+        [ForeignKey("StudentId")]
+        public Student? Student { get; set; }
     }
 }

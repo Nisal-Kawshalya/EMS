@@ -1,8 +1,52 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="landing">
+
+   
+   
+
+    
+    <div class="hero">
+        <h1>
+            Connecting Teachers,<br />
+            Students, and Parents<br />
+            for Better Education
+        </h1>
+
+        <p>
+            A modern education management system built to bring all stakeholders together.
+            Manage classes, track attendance, and share results in real-time.
+        </p>
+
+        <div class="buttons">
+            <a asp-controller="Account" asp-action="Login" class="btn primary">Get Start</a>
+            <a href="#" class="btn secondary">Parent View</a>
+        </div>
+    </div>
+
+    
+    <div class="features">
+
+        <div class="card">
+            <div class="icon">👥</div>
+            <h3>Manage Classes</h3>
+            <p>Organize students by grade and place with ease</p>
+        </div>
+
+        <div class="card">
+            <div class="icon">📊</div>
+            <h3>Track Attendance</h3>
+            <p>Monitor attendance and send updates to parents</p>
+        </div>
+
+        <div class="card">
+            <div class="icon">📘</div>
+            <h3>Share Results</h3>
+            <p>Publish exam results and announcements instantly</p>
+        </div>
+
+    </div>
+
 </div>

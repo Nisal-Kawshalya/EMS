@@ -4,40 +4,79 @@
     ViewData["Title"] = "Teacher Dashboard";
 }
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3>My Classes</h3>
-        <a asp-controller="Class"
-           asp-action="Create"
-           class="btn btn-primary">
-            + New Class
-        </a>
-    </div>
+<div class="dashboard-page">
+    <div class="container mt-4">
 
-    <div class="row">
+        <!-- HEADER -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h2 class="fw-bold">My Classes</h2>
+                <p class="text-muted mb-0">Manage all your classes and students</p>
+            </div>
+
+            <a asp-controller="Class"
+               asp-action="Create"
+               class="btn btn-primary px-4">
+                + New Class
+            </a>
+        </div>
+
+        <!-- NO CLASSES -->
         @if (Model.Count == 0)
         {
-            <p>No classes created yet.</p>
-        }
-
-        @foreach (var cls in Model)
-        {
-            <div class="col-md-4 mb-3">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5>Grade @cls.Grade</h5>
-                        <p class="text-muted">@cls.Place</p>
-                        <p>@cls.ClassStudents.Count student(s)</p>
-
-                        <a asp-controller="Class"
-                           asp-action="Details"
-                           asp-route-id="@cls.Id"
-                           class="btn btn-outline-primary btn-sm">
-                            View Details
-                        </a>
-                    </div>
-                </div>
+            <div class="alert alert-info mt-4">
+                No classes created yet.
             </div>
         }
+        else
+        {
+            <!-- CLASS CARDS -->
+            <div class="row mt-4">
+                @foreach (var cls in Model)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm border-0 rounded-4">
+
+                            <div class="card-body p-4">
+                                <h5 class="fw-bold mb-2">
+                                    Grade @cls.Grade
+                                </h5>
+
+                                <p class="text-muted mb-1">
+                                    📍 @cls.Place
+                                </p>
+
+                                <p class="text-muted">
+                                    👥 @cls.ClassStudents.Count student(s)
+                                </p>
+
+                                <div class="d-flex gap-2 mt-3">
+                                    <a asp-controller="Class"
+                                       asp-action="Details"
+                                       asp-route-id="@cls.Id"
+                                       class="btn btn-outline-primary btn-sm w-50">
+                                        View Details
+                                    </a>
+
+                                    <form asp-controller="Class"
+                                          asp-action="Delete"
+                                          asp-route-id="@cls.Id"
+                                          method="post"
+                                          class="w-50">
+                                        <button type="submit"
+                                                class="btn btn-outline-danger btn-sm w-100"
+                                                onclick="return confirm('Delete this class?');">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
     </div>
 </div>

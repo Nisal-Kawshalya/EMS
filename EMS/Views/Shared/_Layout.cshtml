@@ -4,31 +4,41 @@
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - EMS</title>
 
-   
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/landing.css" />
-    <link rel="stylesheet" href="~/css/aboutus.css" />
-    <link rel="stylesheet" href="~/css/footer.css" />
+    <!-- BOOTSTRAP (REQUIRED) -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
+    <!-- GLOBAL STYLES -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <!-- OTHER PAGES -->
+    <link rel="stylesheet" href="~/css/landing.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/aboutus.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
+
+    <!-- DASHBOARD (LOAD LAST!) -->
+    <link rel="stylesheet"
+          href="~/css/teacher-dashboard.css"
+          asp-append-version="true" />
 </head>
 <body>
 
- 
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-left">
             <span class="logo">EMS</span>
         </div>
 
         <div class="nav-right">
-            
             <a asp-controller="Home" asp-action="About">About Us</a>
             <a asp-controller="Account" asp-action="Login" class="btn-nav">Login</a>
         </div>
     </nav>
 
-  
+    <!-- PAGE CONTENT -->
     @RenderBody()
+
+    <!-- BOOTSTRAP JS (OPTIONAL BUT GOOD) -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
-

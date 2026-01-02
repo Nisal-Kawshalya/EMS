@@ -96,13 +96,12 @@ namespace EMS.Controllers
                 return View();
             }
 
-            // Create session
+          
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("Role", user.Role);
 
-            // Redirect by role
             return user.Role == "Teacher"
-                ? RedirectToAction("Index", "Home")
+                ? RedirectToAction("Dashboard", "Teacher")
                 : RedirectToAction("Index", "Home");
         }
 

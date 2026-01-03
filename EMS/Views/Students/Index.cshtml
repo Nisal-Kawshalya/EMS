@@ -1,4 +1,5 @@
 ﻿@model List<EMS.Models.ClassStudent>
+
 @{
     var cls = ViewBag.Class as EMS.Models.Class;
 }
@@ -7,7 +8,8 @@
 
     <a asp-controller="Class"
        asp-action="Details"
-       asp-route-id="@cls.Id">
+       asp-route-id="@cls.Id"
+       class="text-decoration-none">
         ← Back to Class
     </a>
 
@@ -24,58 +26,20 @@
     <!-- Tabs -->
     <ul class="nav nav-tabs mb-3">
         <li class="nav-item">
-            <a class="nav-link"
-               asp-controller="Class"
-               asp-action="Details"
-               asp-route-id="@cls.Id">
-                Attendance
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link"
-               asp-controller="Homework"
-               asp-action="Index"
-               asp-route-classId="@cls.Id">
-                Homework
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link"
-               asp-controller="Notes"
-               asp-action="Index"
-               asp-route-classId="@cls.Id">
-                Notes
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link"
-               asp-controller="Results"
-               asp-action="Index"
-               asp-route-classId="@cls.Id">
-                Results
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link active">
-                Students
-            </a>
+            <a class="nav-link active">Students</a>
         </li>
     </ul>
 
     <!-- Add Student -->
     <form asp-action="Add"
           method="post"
-          class="d-flex mb-4">
+          class="d-flex justify-content-end mb-4">
 
         <input type="hidden" name="classId" value="@cls.Id" />
 
         <input name="studentCode"
-               class="form-control me-2"
-               placeholder="Enter Student Code (e.g. STU001)"
+               class="form-control me-2 w-25"
+               placeholder="Enter Student Code"
                required />
 
         <button class="btn btn-primary">
@@ -94,16 +58,11 @@
     @foreach (var cs in Model)
     {
         <div class="d-flex justify-content-between align-items-center border-bottom py-3">
-
             <div class="d-flex align-items-center">
-                <div class="me-3 rounded-circle bg-light p-2">
-                    👤
-                </div>
+                <div class="me-3 rounded-circle bg-light p-2">👤</div>
                 <div>
                     <strong>@cs.Student.Name</strong><br />
-                    <small class="text-muted">
-                        @cs.Student.StudentCode
-                    </small>
+                    <small class="text-muted">@cs.Student.StudentCode</small>
                 </div>
             </div>
 

@@ -1,0 +1,45 @@
+﻿@model EMS.Models.Class
+
+<ul class="nav nav-tabs mb-3">
+
+    <!-- Attendance (Class Details) -->
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Details" ? "active" : "")"
+           asp-controller="Class"
+           asp-action="Details"
+           asp-route-id="@Model.Id">
+            Attendance
+        </a>
+    </li>
+
+    <!-- Homework -->
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Homework" ? "active" : "")"
+           asp-controller="Homework"
+           asp-action="Index"
+           asp-route-classId="@Model.Id">
+            Homework
+        </a>
+    </li>
+
+    <!-- Notes -->
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Notes" ? "active" : "")"
+           asp-controller="Notes"
+           asp-action="Index"
+           asp-route-classId="@Model.Id">
+            Notes
+        </a>
+    </li>
+
+    <!-- Results -->
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Results" ? "active" : "")"
+           asp-controller="Results"
+           asp-action="Index"
+           asp-route-classId="@Model.Id">
+            Results
+        </a>
+    </li>
+
+</ul>

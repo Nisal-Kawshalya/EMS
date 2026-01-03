@@ -5,75 +5,28 @@
 
 <div class="container mt-4">
 
-    <!-- Back -->
-    <a asp-controller="Class"
-       asp-action="Details"
-       asp-route-id="@cls.Id">
-        ← Back to Class
-    </a>
+    <a asp-controller="Teacher" asp-action="Dashboard">← Back to Classes</a>
 
-    <!-- Class Header -->
-    <div class="card mt-3 mb-3 shadow-sm">
+    <div class="card mt-3 mb-3">
         <div class="card-body">
             <h4>Grade @cls.Grade - @cls.Place</h4>
-            <p class="text-muted">@Model.Count note(s)</p>
+            <p>@Model.Count note(s)</p>
         </div>
     </div>
 
-    <!-- Tabs -->
-    <ul class="nav nav-tabs mb-3">
-        <li class="nav-item">
-            <a class="nav-link"
-               asp-controller="Class"
-               asp-action="Details"
-               asp-route-id="@cls.Id">
-                Attendance
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link"
-               asp-controller="Homework"
-               asp-action="Index"
-               asp-route-classId="@cls.Id">
-                Homework
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active">
-                Notes
-            </a>
-        </li>
-        <li class="nav-item"><a class="nav-link">Results</a></li>
-        <li class="nav-item"><a class="nav-link">Students</a></li>
-    </ul>
+    @await Html.PartialAsync("_ClassTabs", cls)
 
-    <!-- Add Notes -->
-    <a asp-action="Create"
-       asp-route-classId="@cls.Id"
-       class="btn btn-primary mb-3">
-        + Add Notes
-    </a>
+    <a asp-action="Create" asp-route-classId="@cls.Id"
+       class="btn btn-primary mb-3">+ Add Notes</a>
 
-    <!-- Notes List -->
     @foreach (var note in Model)
     {
-        <div class="border rounded p-3 mb-2 d-flex justify-content-between align-items-center">
+        <div class="border rounded p-3 mb-2 d-flex justify-content-between">
+            <strong>@note.Title</strong>
             <div>
-                📄 <strong>@note.Title</strong>
-            </div>
-
-            <div>
-                <a href="@note.NotesFile"
-                   class="btn btn-outline-secondary btn-sm"
-                   download>
-                    Download
-                </a>
-
-                <a asp-action="Delete"
-                   asp-route-id="@note.Id"
-                   class="btn btn-outline-danger btn-sm ms-2">
-                    🗑
-                </a>
+                <a href="@note.NotesFile" class="btn btn-sm btn-outline-secondary" download>Download</a>
+                <a asp-action="Delete" asp-route-id="@note.Id"
+                   class="btn btn-sm btn-outline-danger ms-2">🗑</a>
             </div>
         </div>
     }

@@ -15,21 +15,21 @@
         ← Back to Classes
     </a>
 
-    <!-- Class Header -->
     <div class="class-header-card">
         <h4>Grade @Model.Grade - @Model.Place</h4>
         <p>@Model.ClassStudents.Count student(s)</p>
     </div>
 
-    <!-- Tabs -->
+   
     <ul class="nav nav-tabs custom-tabs">
 
-        <!-- Attendance (DEFAULT ACTIVE) -->
-        <li class="nav-item">
-            <a class="nav-link active">Attendance</a>
-        </li>
+        <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Details" ? "active" : "")"
+           asp-controller="Class"
+           asp-action="Details"
+           asp-route-id="@Model.Id">
+            Attendance
+        </a>
 
-        <!-- Homework -->
         <li class="nav-item">
             <a class="nav-link"
                asp-controller="Homework"
@@ -52,30 +52,26 @@
 
         <!-- Results -->
         <li class="nav-item">
-<<<<<<< HEAD
             <a class="nav-link"
                asp-controller="Results"
                asp-action="Index"
                asp-route-classId="@Model.Id">
                 Results
             </a>
-=======
+
             <a class="nav-link disabled">Results</a>
->>>>>>> cdc9ea36520faa1ffc7edf55a9a211dd2761733d
         </li>
 
         <!-- Students -->
         <li class="nav-item">
-<<<<<<< HEAD
             <a class="nav-link"
                asp-controller="Students"
                asp-action="Index"
                asp-route-classId="@Model.Id">
                 Students
             </a>
-=======
-            <a class="nav-link disabled">Students</a>
->>>>>>> cdc9ea36520faa1ffc7edf55a9a211dd2761733d
+         <a class="nav-link disabled">Students</a>
+
         </li>
 
     </ul>
@@ -88,7 +84,6 @@
 
         <input type="hidden" name="classId" value="@Model.Id" />
 
-<<<<<<< HEAD
             <input type="hidden" name="classId" value="@Model.Id" />
 
             <div class="d-flex align-items-center mb-3">
@@ -122,7 +117,7 @@
                            checked />
                 </div>
             }
-=======
+
         <!-- Toolbar -->
         <div class="attendance-toolbar">
             <label class="fw-semibold">Date</label>
@@ -130,7 +125,6 @@
                    name="date"
                    class="form-control date-input"
                    required />
->>>>>>> cdc9ea36520faa1ffc7edf55a9a211dd2761733d
 
             <button class="btn btn-primary">
                 Save Attendance

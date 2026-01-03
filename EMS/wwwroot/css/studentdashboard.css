@@ -1,0 +1,66 @@
+﻿/* Page background */
+body {
+    background-color: #f5f7fb;
+}
+
+/* Container spacing */
+.container {
+    max-width: 1200px;
+}
+
+/* Page title */
+h3 {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+/* Subtitle */
+.text-muted {
+    font-size: 14px;
+}
+
+/* Card styling */
+.card {
+    border: none;
+    border-radius: 12px;
+    background-color: #ffffff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    /* Soft shadow like dashboard */
+    .card.shadow-sm {
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Hover effect */
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Card title */
+    .card h5 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #111827;
+    }
+
+    /* Teacher text */
+    .card p {
+        font-size: 14px;
+        color: #6b7280;
+    }
+
+/* Button */
+.btn-outline-primary {
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 0;
+}
+
+/* Empty alert */
+.alert-info {
+    border-radius: 10px;
+    font-size: 14px;
+}

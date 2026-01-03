@@ -40,7 +40,7 @@
 
         </li>
 
-        <!-- Notes -->
+      
         <li class="nav-item">
             <a class="nav-link"
                asp-controller="Notes"
@@ -50,7 +50,7 @@
             </a>
         </li>
 
-        <!-- Results -->
+       
         <li class="nav-item">
             <a class="nav-link"
                asp-controller="Results"
@@ -58,25 +58,11 @@
                asp-route-classId="@Model.Id">
                 Results
             </a>
-
-            <a class="nav-link disabled">Results</a>
         </li>
 
-        <!-- Students -->
-        <li class="nav-item">
-            <a class="nav-link"
-               asp-controller="Students"
-               asp-action="Index"
-               asp-route-classId="@Model.Id">
-                Students
-            </a>
-         <a class="nav-link disabled">Students</a>
-
-        </li>
 
     </ul>
 
-    <!-- Attendance -->
     <form asp-controller="Attendance"
           asp-action="Save"
           method="post"
@@ -99,7 +85,7 @@
                 </button>
             </div>
 
-            <!-- Student List -->
+           
             @foreach (var cs in Model.ClassStudents)
             {
                 <div class="d-flex justify-content-between align-items-center border-bottom py-3">

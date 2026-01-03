@@ -1,101 +1,105 @@
-﻿html, body {
-    background-color: white !important;
-}
-
-body {
-    font-family: "Poppins", sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
+﻿/* PAGE BACKGROUND */
 .class-create-container {
-    margin-top: 90px; /* Push content below navbar */
-}
-
-.notes-container {
+    min-height: 100vh;
+    background-color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh;
+    padding: 20px;
 }
 
-.notes-card {
-    background: white;
-    width: 420px;
-    padding: 25px;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+/* CARD */
+.class-create-card {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 450px;
+    padding: 30px;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-.notes-title {
+/* TITLE */
+.page-title {
     text-align: center;
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 600;
-    color: #1e293b;
-    margin-bottom: 18px;
+    margin-bottom: 25px;
+    color: #1f2937;
 }
 
-.form-group {
-    margin-bottom: 15px;
+/* FORM */
+.class-form {
+    display: flex;
+    flex-direction: column;
 }
 
+/* LABEL */
 .form-label {
-    font-size: 14px;
     font-weight: 500;
-    color: #334155;
-    display: block;
     margin-bottom: 6px;
+    color: #374151;
 }
 
+/* INPUT */
 .form-input {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #cbd5e1;
+    padding: 10px 12px;
     border-radius: 8px;
-    font-size: 14px;
-    outline: none;
+    border: 1px solid #d1d5db;
+    font-size: 15px;
+    transition: all 0.3s ease;
 }
 
     .form-input:focus {
+        outline: none;
         border-color: #2563eb;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
     }
 
+/* VALIDATION */
+.text-danger {
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+/* ACTION BUTTONS */
 .form-actions {
     display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
+    gap: 12px;
+    margin-top: 25px;
 }
 
+/* PRIMARY BUTTON */
 .btn-primary {
-    background: #2563eb;
+    flex: 1;
+    background-color: #2563eb;
+    color: #ffffff;
     border: none;
-    padding: 10px 18px;
+    padding: 10px;
     border-radius: 8px;
-    color: white;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 15px;
     cursor: pointer;
-    width: 48%;
+    transition: background-color 0.3s ease;
 }
 
+    .btn-primary:hover {
+        background-color: #1d4ed8;
+    }
+
+/* SECONDARY BUTTON */
 .btn-secondary {
-    background: #64748b;
-    padding: 10px 18px;
-    border-radius: 8px;
-    color: white;
-    font-size: 14px;
-    text-decoration: none;
+    flex: 1;
     text-align: center;
-    width: 48%;
-    display: inline-block;
+    background-color: #e5e7eb;
+    color: #1f2937;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: background-color 0.3s ease;
 }
 
-input[type="file"]::file-selector-button {
-    background: #2563eb;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    margin-right: 10px;
-}
+    .btn-secondary:hover {
+        background-color: #d1d5db;
+    }

@@ -1,0 +1,54 @@
+﻿/* Page background */
+body {
+    background-color: #f8fafc;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+/* Main container */
+.class-create-container {
+    max-width: 900px;
+    background: #ffffff;
+    padding: 30px 35px;
+    margin-top: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Page title */
+.page-title {
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #0f172a;
+}
+
+/* Form labels */
+.form-label {
+    font-weight: 500;
+    color: #1e293b;
+}
+
+/* Inputs */
+.form-control {
+    height: 45px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+}
+
+    .form-control:focus {
+        border-color: #2563eb;
+        box-shadow: none;
+    }
+
+/* Buttons */
+.button-group {
+    margin-top: 20px;
+}
+
+.btn-primary {
+    padding: 8px 24px;
+    font-weight: 500;
+}
+
+.btn-secondary {
+    padding: 8px 24px;
+}

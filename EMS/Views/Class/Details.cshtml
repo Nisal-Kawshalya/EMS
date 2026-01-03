@@ -1,0 +1,98 @@
+﻿@model EMS.Models.Class
+
+@{
+    ViewData["Title"] = "Class Details";
+}
+
+<link rel="stylesheet" href="~/css/class-details.css" />
+
+<div class="class-details-container">
+
+    <!-- Back -->
+    <a asp-controller="Teacher"
+       asp-action="Dashboard"
+       class="back-link">
+        ← Back to Classes
+    </a>
+
+    <!-- Class Header -->
+    <div class="class-header-card">
+        <h4>Grade @Model.Grade - @Model.Place</h4>
+        <p>@Model.ClassStudents.Count student(s)</p>
+    </div>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs custom-tabs">
+
+        <li class="nav-item">
+            <a class="nav-link active">Attendance</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               asp-controller="Homework"
+               asp-action="Index"
+               asp-route-classId="@Model.Id">
+                Homework
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link"
+               asp-controller="Notes"
+               asp-action="Index"
+               asp-route-classId="@Model.Id">
+                Notes
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link disabled">Results</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link disabled">Students</a>
+        </li>
+
+    </ul>
+
+    <!-- Attendance -->
+    <form asp-controller="Attendance"
+          asp-action="Save"
+          method="post"
+          class="attendance-card">
+
+        <input type="hidden" name="classId" value="@Model.Id" />
+
+        <!-- Toolbar -->
+        <div class="attendance-toolbar">
+            <label class="fw-semibold">Date</label>
+            <input type="date"
+                   name="date"
+                   class="form-control date-input"
+                   required />
+
+            <button class="btn btn-primary">
+                Save Attendance
+            </button>
+        </div>
+
+        <!-- Student List -->
+        @foreach (var cs in Model.ClassStudents)
+        {
+            <div class="student-row">
+
+                <div>
+                    <div class="student-name">@cs.Student.Name</div>
+                    <div class="student-code">@cs.Student.StudentCode</div>
+                </div>
+
+                <input type="checkbox"
+                       name="presentStudentIds"
+                       value="@cs.StudentId"
+                       checked />
+            </div>
+        }
+
+    </form>
+</div>

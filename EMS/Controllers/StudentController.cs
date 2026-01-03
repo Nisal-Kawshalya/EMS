@@ -13,31 +13,34 @@ namespace EMS.Controllers
             _context = context;
         }
 
-        // 🏠 STUDENT DASHBOARD → ALL CLASSES (NEW IDEA)
+        // 🏠 STUDENT DASHBOARD → ALL CLASSES
         public IActionResult Dashboard()
         {
             int? userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
+            string? role = HttpContext.Session.GetString("Role");
+
+            if (userId == null || role != "Student")
                 return RedirectToAction("Login", "Account");
 
-            // ✅ FETCH ALL CLASSES CREATED BY ALL TEACHERS
             var classes = _context.Classes
                 .Include(c => c.Teacher)
+                .OrderByDescending(c => c.Id)
                 .ToList();
 
             return View(classes);
         }
 
-        // 📘 CLASS DETAILS (READ ONLY)
-        public IActionResult ClassDetails(int classId)
+        // 📘 CLASS PAGE (Homework / Notes / Results)
+        public IActionResult Class(int classId, string tab = "Homework")
         {
             int? userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
+            string? role = HttpContext.Session.GetString("Role");
+
+            if (userId == null || role != "Student")
                 return RedirectToAction("Login", "Account");
 
             var cls = _context.Classes
                 .Include(c => c.Teacher)
-                .Include(c => c.Attendences)
                 .Include(c => c.Homeworks)
                 .Include(c => c.Notes)
                 .Include(c => c.Results)
@@ -46,7 +49,8 @@ namespace EMS.Controllers
             if (cls == null)
                 return NotFound();
 
-            return View(cls);
+            ViewBag.ActiveTab = tab;
+            return View(cls); // 👉 loads Views/Student/Class.cshtml
         }
     }
 }

@@ -14,7 +14,7 @@ public class NotesController : Controller
         _env = env;
     }
 
-    // 📘 SHOW NOTES TAB
+    //  SHOW NOTES TAB
     public IActionResult Index(int classId)
     {
         var cls = _context.Classes
@@ -28,14 +28,14 @@ public class NotesController : Controller
         return View(cls.Notes.ToList());
     }
 
-    // ➕ ADD NOTES PAGE
+    //  ADD NOTES PAGE
     public IActionResult Create(int classId)
     {
         ViewBag.ClassId = classId;
         return View();
     }
 
-    // 💾 SAVE NOTES (PDF)
+    //  SAVE NOTES (PDF)
     [HttpPost]
     public IActionResult Create(Note note, IFormFile pdfFile)
     {
@@ -47,14 +47,14 @@ public class NotesController : Controller
 
         if (pdfFile != null && pdfFile.Length > 0)
         {
-            // 🔑 Correct & safe upload path
+            //  Correct & safe upload path
             string uploadsFolder = Path.Combine(
                 _env.WebRootPath,
                 "uploads",
                 "notes"
             );
 
-            // 🔑 CREATE FOLDER IF NOT EXISTS
+            //  CREATE FOLDER IF NOT EXISTS
             if (!Directory.Exists(uploadsFolder))
             {
                 Directory.CreateDirectory(uploadsFolder);
@@ -79,7 +79,7 @@ public class NotesController : Controller
         return RedirectToAction("Index", new { classId = note.ClassId });
     }
 
-    // 🗑 DELETE NOTE
+    // DELETE NOTE
     public IActionResult Delete(int id)
     {
         var note = _context.Notes.Find(id);

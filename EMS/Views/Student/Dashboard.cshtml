@@ -1,0 +1,56 @@
+﻿@model List<EMS.Models.Class>
+
+@{
+    ViewData["Title"] = "Student Dashboard";
+}
+
+<div class="container mt-4">
+
+    <!-- STUDENT CODE CARD -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body text-center">
+            <h6 class="text-muted mb-1">
+                Your Student Code
+            </h6>
+            <h3 class="fw-bold text-primary">
+                @ViewBag.StudentCode
+            </h3>
+            <small class="text-muted">
+                Share this code with your teacher to be added to classes
+            </small>
+        </div>
+    </div>
+
+    <h3 class="mb-2">My Classes</h3>
+    <p class="text-muted mb-4">
+        View your enrolled classes and teachers
+    </p>
+
+    <div class="row">
+        @foreach (var cls in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+
+                        <h5>
+                            Grade @cls.Grade - @cls.Place
+                        </h5>
+
+                        <p class="text-muted mb-2">
+                            Teacher: @cls.Teacher?.Name
+                        </p>
+
+                        <a asp-action="ClassDetails"
+                           asp-route-classId="@cls.Id"
+                           class="btn btn-outline-primary w-100">
+                            View Details
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>

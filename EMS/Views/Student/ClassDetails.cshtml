@@ -1,0 +1,81 @@
+﻿@model EMS.Models.Class
+@{
+    int studentId = (int)ViewBag.StudentId;
+
+    var myAttendance = Model.Attendences
+        .Where(a => a.StudentId == studentId)
+        .OrderByDescending(a => a.Date)
+        .ToList();
+
+    int total = myAttendance.Count;
+    int present = myAttendance.Count(a => a.IsPresent);
+    int percentage = total == 0 ? 0 : (present * 100 / total);
+}
+
+<div class="container mt-4">
+
+    <a asp-action="Dashboard">
+        ← Back to Classes
+    </a>
+
+    <!-- Class Header -->
+    <div class="card mt-3 mb-3 shadow-sm">
+        <div class="card-body">
+            <h4>
+                Grade @Model.Grade - @Model.Place
+            </h4>
+            <p class="text-muted">
+                Teacher: @Model.Teacher?.Name
+            </p>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link active">Attendance</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled">Homework</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled">Notes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled">Results</a>
+        </li>
+    </ul>
+
+    <!-- Attendance Summary -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5>Overall Attendance</h5>
+            <h2 class="text-primary">
+                @percentage%
+            </h2>
+        </div>
+    </div>
+
+    <!-- Recent Attendance -->
+    <div class="card">
+        <div class="card-body">
+            <h5>Recent Attendance</h5>
+
+            @foreach (var a in myAttendance)
+            {
+                <div class="d-flex justify-content-between border-bottom py-2">
+                    <span>@a.Date.ToShortDateString()</span>
+
+                    @if (a.IsPresent)
+                    {
+                        <span class="text-success">Present</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Absent</span>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

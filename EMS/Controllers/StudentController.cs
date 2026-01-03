@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EMS.Data;
-using EMS.Models;
 
 namespace EMS.Controllers
 {
@@ -14,28 +13,16 @@ namespace EMS.Controllers
             _context = context;
         }
 
-        // 🏠 STUDENT DASHBOARD (MY CLASSES)
+        // 🏠 STUDENT DASHBOARD → ALL CLASSES (NEW IDEA)
         public IActionResult Dashboard()
         {
             int? userId = HttpContext.Session.GetInt32("UserId");
-
             if (userId == null)
                 return RedirectToAction("Login", "Account");
 
-            var student = _context.Students
-                .FirstOrDefault(s => s.UserId == userId);
-
-            if (student == null)
-                return RedirectToAction("Logout", "Account");
-
-            // ✅ SEND STUDENT CODE TO VIEW
-            ViewBag.StudentCode = student.StudentCode;
-
-            var classes = _context.ClassStudents
-                .Where(cs => cs.StudentId == student.Id)
-                .Include(cs => cs.Class)
-                    .ThenInclude(c => c.Teacher)
-                .Select(cs => cs.Class)
+            // ✅ FETCH ALL CLASSES CREATED BY ALL TEACHERS
+            var classes = _context.Classes
+                .Include(c => c.Teacher)
                 .ToList();
 
             return View(classes);
@@ -45,15 +32,8 @@ namespace EMS.Controllers
         public IActionResult ClassDetails(int classId)
         {
             int? userId = HttpContext.Session.GetInt32("UserId");
-
             if (userId == null)
                 return RedirectToAction("Login", "Account");
-
-            var student = _context.Students
-                .FirstOrDefault(s => s.UserId == userId);
-
-            if (student == null)
-                return RedirectToAction("Logout", "Account");
 
             var cls = _context.Classes
                 .Include(c => c.Teacher)
@@ -66,7 +46,6 @@ namespace EMS.Controllers
             if (cls == null)
                 return NotFound();
 
-            ViewBag.StudentId = student.Id;
             return View(cls);
         }
     }

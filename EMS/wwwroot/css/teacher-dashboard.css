@@ -1,0 +1,85 @@
+﻿/* =========================
+   DASHBOARD PAGE
+========================= */
+.dashboard-page {
+    background-color: #f8fafc;
+    min-height: 100vh;
+    padding-bottom: 40px;
+}
+
+    /* =========================
+   HEADINGS
+========================= */
+    .dashboard-page h2 {
+        color: #111827;
+    }
+
+    /* =========================
+   BUTTONS
+========================= */
+    .dashboard-page .btn-primary {
+        background-color: #2563eb;
+        border: none;
+    }
+
+        .dashboard-page .btn-primary:hover {
+            background-color: #1e40af;
+        }
+
+    .dashboard-page .btn-outline-primary {
+        border-color: #2563eb;
+        color: #2563eb;
+    }
+
+        .dashboard-page .btn-outline-primary:hover {
+            background-color: #2563eb;
+            color: #ffffff;
+        }
+
+    .dashboard-page .btn-outline-danger {
+        border-color: #dc2626;
+        color: #dc2626;
+    }
+
+        .dashboard-page .btn-outline-danger:hover {
+            background-color: #dc2626;
+            color: #ffffff;
+        }
+
+    /* =========================
+   CLASS CARDS
+========================= */
+    .dashboard-page .card {
+        border-radius: 18px;
+        background-color: #ffffff;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+        .dashboard-page .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .dashboard-page .card h5 {
+            font-size: 1.1rem;
+            color: #111827;
+        }
+
+    /* =========================
+   ALERT
+========================= */
+    .dashboard-page .alert-info {
+        background-color: #eff6ff;
+        color: #1e3a8a;
+        border: none;
+        border-radius: 12px;
+    }
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 768px) {
+    .dashboard-page .btn {
+        width: 100%;
+    }
+}

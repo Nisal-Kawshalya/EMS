@@ -55,7 +55,7 @@ body {
         }
 
         .nav-tabs .nav-link.active {
-            background-color: #ffffff;
+            background-color: #F8F9FA;
             border: 1px solid #cbd5e1;
             border-bottom-color: #ffffff;
             border-radius: 6px 6px 0 0;

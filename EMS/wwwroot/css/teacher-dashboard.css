@@ -1,22 +1,16 @@
-﻿/* =========================
-   DASHBOARD PAGE
-========================= */
+﻿
 .dashboard-page {
     background-color: #f8fafc;
     min-height: 100vh;
     padding-bottom: 40px;
 }
 
-    /* =========================
-   HEADINGS
-========================= */
+
     .dashboard-page h2 {
         color: #111827;
     }
 
-    /* =========================
-   BUTTONS
-========================= */
+ 
     .dashboard-page .btn-primary {
         background-color: #2563eb;
         border: none;
@@ -46,9 +40,8 @@
             color: #ffffff;
         }
 
-    /* =========================
-   CLASS CARDS
-========================= */
+  // CLASS CARDS
+
     .dashboard-page .card {
         border-radius: 18px;
         background-color: #ffffff;
@@ -65,9 +58,6 @@
             color: #111827;
         }
 
-    /* =========================
-   ALERT
-========================= */
     .dashboard-page .alert-info {
         background-color: #eff6ff;
         color: #1e3a8a;
@@ -75,9 +65,7 @@
         border-radius: 12px;
     }
 
-/* =========================
-   MOBILE
-========================= */
+
 @media (max-width: 768px) {
     .dashboard-page .btn {
         width: 100%;

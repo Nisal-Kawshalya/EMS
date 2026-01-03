@@ -5,23 +5,21 @@
     DateTime date = ViewBag.Date;
 }
 
-<div class="container mt-4">
+<link rel="stylesheet" href="~/css/attendance.css" />
+
+<div class="attendance-container">
 
     <!-- Back -->
     <a asp-controller="Teacher"
        asp-action="Dashboard"
-       class="text-decoration-none mb-3 d-inline-block">
+       class="back-link">
         ← Back to Classes
     </a>
 
     <!-- Class Header -->
-    <div class="card mb-4 shadow-sm">
-        <div class="card-body">
-            <h4>Grade @cls.Grade - @cls.Place</h4>
-            <p class="text-muted">
-                @cls.ClassStudents.Count student(s)
-            </p>
-        </div>
+    <div class="class-card">
+        <h4>Grade @cls.Grade - @cls.Place</h4>
+        <p>@cls.ClassStudents.Count student(s)</p>
     </div>
 
     <!-- Attendance Form -->
@@ -29,12 +27,12 @@
 
         <input type="hidden" name="classId" value="@cls.Id" />
 
-        <!-- Date -->
-        <div class="d-flex align-items-center mb-3">
+        <!-- Toolbar -->
+        <div class="attendance-toolbar">
             <input type="date"
                    name="date"
                    value="@date.ToString("yyyy-MM-dd")"
-                   class="form-control w-auto me-3" />
+                   class="form-control date-input" />
 
             <button type="submit" class="btn btn-primary">
                 Save Attendance
@@ -42,37 +40,34 @@
         </div>
 
         <!-- Student List -->
-        <div class="card shadow-sm">
-            <div class="card-body">
+        <div class="attendance-card">
 
-                @foreach (var cs in Model)
-                {
-                    <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+            @foreach (var cs in Model)
+            {
+                <div class="student-row">
 
-                        <div>
-                            <strong>@cs.Student.Name</strong><br />
-                            <small class="text-muted">
-                                @cs.Student.StudentCode
-                            </small>
-                        </div>
-
-                        <div>
-                            <input type="checkbox"
-                                   class="btn-check"
-                                   name="presentStudentIds"
-                                   value="@cs.StudentId"
-                                   id="s_@cs.StudentId"
-                                   checked />
-
-                            <label class="btn btn-outline-success"
-                                   for="s_@cs.StudentId">
-                                Present
-                            </label>
-                        </div>
+                    <div>
+                        <div class="student-name">@cs.Student.Name</div>
+                        <div class="student-code">@cs.Student.StudentCode</div>
                     </div>
-                }
 
-            </div>
+                    <div>
+                        <input type="checkbox"
+                               class="btn-check"
+                               name="presentStudentIds"
+                               value="@cs.StudentId"
+                               id="s_@cs.StudentId"
+                               checked />
+
+                        <label class="status-btn"
+                               for="s_@cs.StudentId">
+                            Present
+                        </label>
+                    </div>
+
+                </div>
+            }
+
         </div>
 
     </form>

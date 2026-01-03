@@ -1,0 +1,95 @@
+﻿body {
+    background: #f8fafc;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* Page */
+.attendance-container {
+    max-width: 1100px;
+    margin: 20px auto;
+}
+
+/* Back link */
+.back-link {
+    display: inline-block;
+    margin-bottom: 15px;
+    color: #475569;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* Class header */
+.class-card {
+    background: #ffffff;
+    padding: 18px 22px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+    .class-card p {
+        margin: 0;
+        color: #64748b;
+    }
+
+/* Toolbar */
+.attendance-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.date-input {
+    max-width: 200px;
+}
+
+/* Attendance list */
+.attendance-card {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    padding: 10px 20px;
+}
+
+.student-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+    .student-row:last-child {
+        border-bottom: none;
+    }
+
+.student-name {
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.student-code {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+/* Toggle button */
+.status-btn {
+    padding: 6px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid #22c55e;
+    color: #166534;
+    background: #dcfce7;
+    cursor: pointer;
+}
+
+/* When unchecked → Absent */
+.btn-check:not(:checked) + .status-btn {
+    background: #fee2e2;
+    border-color: #ef4444;
+    color: #991b1b;
+    content: "Absent";
+}

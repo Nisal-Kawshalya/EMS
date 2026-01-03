@@ -4,33 +4,29 @@
     ViewData["Title"] = "Class Details";
 }
 
-<div class="container mt-4">
+<link rel="stylesheet" href="~/css/class-details.css" />
+
+<div class="class-details-container">
 
     <!-- Back -->
     <a asp-controller="Teacher"
        asp-action="Dashboard"
-       class="text-decoration-none">
+       class="back-link">
         ← Back to Classes
     </a>
 
     <!-- Class Header -->
-    <div class="card mt-3 mb-3 shadow-sm">
-        <div class="card-body">
-            <h4>Grade @Model.Grade - @Model.Place</h4>
-            <p class="text-muted">
-                @Model.ClassStudents.Count student(s)
-            </p>
-        </div>
+    <div class="class-header-card">
+        <h4>Grade @Model.Grade - @Model.Place</h4>
+        <p>@Model.ClassStudents.Count student(s)</p>
     </div>
 
     <!-- Tabs -->
-    <ul class="nav nav-tabs mb-3">
+    <ul class="nav nav-tabs custom-tabs">
 
         <!-- Attendance (DEFAULT ACTIVE) -->
         <li class="nav-item">
-            <a class="nav-link active">
-                Attendance
-            </a>
+            <a class="nav-link active">Attendance</a>
         </li>
 
         <!-- Homework -->
@@ -41,6 +37,7 @@
                asp-route-classId="@Model.Id">
                 Homework
             </a>
+
         </li>
 
         <!-- Notes -->
@@ -55,34 +52,43 @@
 
         <!-- Results -->
         <li class="nav-item">
+<<<<<<< HEAD
             <a class="nav-link"
                asp-controller="Results"
                asp-action="Index"
                asp-route-classId="@Model.Id">
                 Results
             </a>
+=======
+            <a class="nav-link disabled">Results</a>
+>>>>>>> cdc9ea36520faa1ffc7edf55a9a211dd2761733d
         </li>
 
         <!-- Students -->
         <li class="nav-item">
+<<<<<<< HEAD
             <a class="nav-link"
                asp-controller="Students"
                asp-action="Index"
                asp-route-classId="@Model.Id">
                 Students
             </a>
+=======
+            <a class="nav-link disabled">Students</a>
+>>>>>>> cdc9ea36520faa1ffc7edf55a9a211dd2761733d
         </li>
 
     </ul>
 
-    <!-- Attendance Content -->
+    <!-- Attendance -->
     <form asp-controller="Attendance"
           asp-action="Save"
           method="post"
-          class="card shadow-sm">
+          class="attendance-card">
 
-        <div class="card-body">
+        <input type="hidden" name="classId" value="@Model.Id" />
 
+<<<<<<< HEAD
             <input type="hidden" name="classId" value="@Model.Id" />
 
             <div class="d-flex align-items-center mb-3">
@@ -116,8 +122,38 @@
                            checked />
                 </div>
             }
+=======
+        <!-- Toolbar -->
+        <div class="attendance-toolbar">
+            <label class="fw-semibold">Date</label>
+            <input type="date"
+                   name="date"
+                   class="form-control date-input"
+                   required />
+>>>>>>> cdc9ea36520faa1ffc7edf55a9a211dd2761733d
 
+            <button class="btn btn-primary">
+                Save Attendance
+            </button>
         </div>
+
+        <!-- Student List -->
+        @foreach (var cs in Model.ClassStudents)
+        {
+            <div class="student-row">
+
+                <div>
+                    <div class="student-name">@cs.Student.Name</div>
+                    <div class="student-code">@cs.Student.StudentCode</div>
+                </div>
+
+                <input type="checkbox"
+                       name="presentStudentIds"
+                       value="@cs.StudentId"
+                       checked />
+            </div>
+        }
+
     </form>
 
 </div>

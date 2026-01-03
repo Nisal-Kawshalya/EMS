@@ -1,31 +1,35 @@
 ﻿@model EMS.Models.Note
 
-<div class="container mt-4">
-    <h3>Add Notes</h3>
+<link rel="stylesheet" href="~/css/class-create.css" />
 
-    <form method="post" enctype="multipart/form-data">
+<div class="notes-container">
+    <div class="notes-card">
+        <h3 class="notes-title">Add Notes</h3>
 
-        <input type="hidden" asp-for="ClassId" value="@ViewBag.ClassId" />
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="ClassId" value="@ViewBag.ClassId" />
 
-        <div class="mb-3">
-            <label asp-for="Title"></label>
-            <input asp-for="Title" class="form-control" />
-        </div>
+            <div class="form-group">
+                <label asp-for="Title" class="form-label">Note Title</label>
+                <input asp-for="Title" class="form-input" placeholder="Enter note title" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
 
-        <div class="mb-3">
-            <label>Notes PDF</label>
-            <input type="file"
-                   name="pdfFile"
-                   accept=".pdf"
-                   class="form-control" />
-        </div>
+            <div class="form-group">
+                <label class="form-label">Upload Notes (PDF)</label>
+                <input type="file" name="pdfFile" accept=".pdf" class="form-input" required />
+            </div>
 
-        <button class="btn btn-primary">Save Notes</button>
-
-        <a asp-action="Index"
-           asp-route-classId="@ViewBag.ClassId"
-           class="btn btn-secondary ms-2">
-            Cancel
-        </a>
-    </form>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Save Notes</button>
+                <a asp-action="Index" asp-route-classId="@ViewBag.ClassId" class="btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

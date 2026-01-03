@@ -1,0 +1,40 @@
+﻿@model EMS.Models.Homework
+
+<div class="container mt-4">
+    <h3>Add Homework</h3>
+
+    <form method="post" enctype="multipart/form-data">
+
+        <input type="hidden" asp-for="ClassId" value="@ViewBag.ClassId" />
+
+        <div class="mb-3">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label>Assignment PDF</label>
+            <input type="file" name="pdfFile"
+                   accept=".pdf"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DueDate"></label>
+            <input asp-for="DueDate" type="date" class="form-control" />
+        </div>
+
+        <button class="btn btn-primary">Save Homework</button>
+
+        <a asp-action="Index"
+           asp-route-classId="@ViewBag.ClassId"
+           class="btn btn-secondary ms-2">
+            Cancel
+        </a>
+    </form>
+</div>

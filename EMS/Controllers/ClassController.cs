@@ -62,4 +62,28 @@ public class ClassController : Controller
         ViewBag.ActiveTab = "Attendance";
         return View(cls);
     }
+
+    // ✅ DELETE CLASS (with confirmation modal)
+    [HttpPost]
+    public IActionResult Delete(int id)
+    {
+        int userId = HttpContext.Session.GetInt32("UserId")!.Value;
+        var teacher = _context.Teachers.FirstOrDefault(t => t.UserId == userId);
+        if (teacher == null) return RedirectToAction("Login", "Account");
+
+        var cls = _context.Classes
+            .Include(c => c.ClassStudents)
+            .FirstOrDefault(c => c.Id == id && c.TeacherId == teacher.Id);
+
+        if (cls == null) return NotFound();
+
+        if (cls.ClassStudents != null && cls.ClassStudents.Count > 0)
+            _context.ClassStudents.RemoveRange(cls.ClassStudents);
+
+        _context.Classes.Remove(cls);
+        _context.SaveChanges();
+
+        return RedirectToAction("Index", "Class");
+    }
+
 }

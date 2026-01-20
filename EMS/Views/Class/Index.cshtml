@@ -29,6 +29,19 @@
         var count = c.ClassStudents?.Count ?? 0;
 
         <div class="class-card" data-text="@($"{c.Grade} {c.Place}".ToLower())">
+
+            <!-- ✅ Delete icon (top-right) -->
+            <button type="button"
+                    class="class-delete-btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteClassModal"
+                    data-id="@c.Id"
+                    data-title="@($"Grade {c.Grade} - {c.Place}")"
+                    data-subject="@c.Subject">
+                🗑
+            </button>
+
+
             <h3 class="class-title">@c.Subject - Grade @c.Grade</h3>
 
             <div class="row-item">
@@ -60,6 +73,42 @@
     }
 </div>
 
+<!-- ✅ Delete Confirmation Modal -->
+<div class="modal fade" id="deleteClassModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Class</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <p>Are you sure you want to delete this class?</p>
+
+                <div class="p-3 rounded bg-light">
+                    <div><b id="delClassTitle"></b></div>
+                    <div class="text-muted">Subject: <span id="delClassSubject"></span></div>
+                </div>
+
+                <p class="text-danger mt-3 mb-0">This action cannot be undone.</p>
+            </div>
+
+            <div class="modal-footer">
+                <!-- No -->
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+
+                <!-- Yes -->
+                <form method="post" asp-controller="Class" asp-action="Delete">
+                    <input type="hidden" name="id" id="delClassId" />
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
         const input = document.getElementById("classSearch");
@@ -71,6 +120,23 @@
                 const text = card.getAttribute("data-text");
                 card.style.display = text.includes(q) ? "" : "none";
             });
+        });
+    </script>
+
+    <script>
+        // Fill modal data when opening
+        const deleteModal = document.getElementById("deleteClassModal");
+
+        deleteModal.addEventListener("show.bs.modal", function (event) {
+            const btn = event.relatedTarget;
+
+            const id = btn.getAttribute("data-id");
+            const title = btn.getAttribute("data-title");
+            const subject = btn.getAttribute("data-subject");
+
+            document.getElementById("delClassId").value = id;
+            document.getElementById("delClassTitle").textContent = title;
+            document.getElementById("delClassSubject").textContent = subject;
         });
     </script>
 }

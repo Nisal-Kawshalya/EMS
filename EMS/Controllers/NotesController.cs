@@ -14,63 +14,68 @@ public class NotesController : Controller
         _env = env;
     }
 
-    //  SHOW NOTES TAB
-    public IActionResult Index(int classId)
+    // ✅ SHOW NOTES TAB
+    public IActionResult Index(int classId, int showForm = 0)
     {
         var cls = _context.Classes
             .Include(c => c.Notes)
             .FirstOrDefault(c => c.Id == classId);
 
-        if (cls == null)
-            return NotFound();
+        if (cls == null) return NotFound();
 
         ViewBag.Class = cls;
+        ViewBag.ShowForm = showForm == 1;
+
         return View(cls.Notes.ToList());
     }
 
-    //  ADD NOTES PAGE
+    // ✅ If user goes to /Notes/Create -> redirect to Index + open form
+    [HttpGet]
     public IActionResult Create(int classId)
     {
-        ViewBag.ClassId = classId;
-        return View();
+        return RedirectToAction("Index", new { classId, showForm = 1 });
     }
 
-    //  SAVE NOTES (PDF)
+    // ✅ SAVE NOTES (PDF)
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult Create(Note note, IFormFile pdfFile)
     {
-        if (!ModelState.IsValid)
+        if (note == null || note.ClassId <= 0)
+            return BadRequest();
+
+        if (string.IsNullOrWhiteSpace(note.Title))
         {
-            ViewBag.ClassId = note.ClassId;
-            return View(note);
+            TempData["NotesError"] = "Title is required.";
+            return RedirectToAction("Index", new { classId = note.ClassId, showForm = 1 });
         }
 
-        if (pdfFile != null && pdfFile.Length > 0)
+        if (pdfFile == null || pdfFile.Length == 0)
         {
-            //  Correct & safe upload path
-            string uploadsFolder = Path.Combine(
-                _env.WebRootPath,
-                "uploads",
-                "notes"
-            );
-
-            //  CREATE FOLDER IF NOT EXISTS
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
-
-            string fileName = Guid.NewGuid() + Path.GetExtension(pdfFile.FileName);
-            string filePath = Path.Combine(uploadsFolder, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                pdfFile.CopyTo(stream);
-            }
-
-            note.NotesFile = "/uploads/notes/" + fileName;
+            TempData["NotesError"] = "Please upload a PDF file.";
+            return RedirectToAction("Index", new { classId = note.ClassId, showForm = 1 });
         }
 
+        var ext = Path.GetExtension(pdfFile.FileName).ToLower();
+        if (ext != ".pdf")
+        {
+            TempData["NotesError"] = "Only PDF files are allowed.";
+            return RedirectToAction("Index", new { classId = note.ClassId, showForm = 1 });
+        }
+
+        string uploadsFolder = Path.Combine(_env.WebRootPath, "uploads", "notes");
+        if (!Directory.Exists(uploadsFolder))
+            Directory.CreateDirectory(uploadsFolder);
+
+        string fileName = Guid.NewGuid() + ext;
+        string filePath = Path.Combine(uploadsFolder, fileName);
+
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            pdfFile.CopyTo(stream);
+        }
+
+        note.NotesFile = "/uploads/notes/" + fileName;
         note.Createddate = DateTime.Now;
 
         _context.Notes.Add(note);
@@ -79,14 +84,24 @@ public class NotesController : Controller
         return RedirectToAction("Index", new { classId = note.ClassId });
     }
 
-    // DELETE NOTE
+    // ✅ DELETE NOTE
     public IActionResult Delete(int id)
     {
         var note = _context.Notes.Find(id);
-        if (note == null)
-            return NotFound();
+        if (note == null) return NotFound();
 
         int classId = note.ClassId;
+
+        if (!string.IsNullOrEmpty(note.NotesFile))
+        {
+            var physicalPath = Path.Combine(
+                _env.WebRootPath,
+                note.NotesFile.TrimStart('/').Replace("/", Path.DirectorySeparatorChar.ToString())
+            );
+
+            if (System.IO.File.Exists(physicalPath))
+                System.IO.File.Delete(physicalPath);
+        }
 
         _context.Notes.Remove(note);
         _context.SaveChanges();

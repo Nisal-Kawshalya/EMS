@@ -1,73 +1,200 @@
-﻿
-.dashboard-page {
-    background-color: #f8fafc;
-    min-height: 100vh;
-    padding-bottom: 40px;
+﻿.td-page {
+    padding: 28px 26px;
+    max-width: 1200px;
 }
 
+.td-topbar-title {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: #111827;
+}
 
-    .dashboard-page h2 {
+.td-header h1 {
+    font-size: 44px;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.td-header p {
+    margin-top: 10px;
+    color: #6b7280;
+    font-size: 16px;
+}
+
+/* Stats */
+.td-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.td-stat-card {
+    background: #fff;
+    border: 1px solid #eef0f4;
+    border-radius: 16px;
+    padding: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.td-stat-label {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.td-stat-value {
+    font-size: 40px;
+    font-weight: 800;
+}
+
+.td-stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+}
+
+.td-icon-blue {
+    background: #e8f0ff;
+    color: #2563eb;
+}
+
+.td-icon-green {
+    background: #eafff2;
+    color: #16a34a;
+}
+
+.td-icon-purple {
+    background: #f3e8ff;
+    color: #7c3aed;
+}
+
+/* Cards */
+.td-card {
+    background: #fff;
+    border: 1px solid #eef0f4;
+    border-radius: 16px;
+    padding: 22px;
+    margin-top: 18px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.td-card-title {
+    font-weight: 800;
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+.td-card-subtitle {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+/* Quick actions */
+.td-actions {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr 1fr;
+    gap: 14px;
+}
+
+.td-btn {
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid transparent;
+}
+
+.td-btn-primary {
+    background: #0b3b8c;
+    color: white;
+}
+
+    .td-btn-primary:hover {
+        filter: brightness(0.95);
+        color: white;
+    }
+
+.td-btn-outline {
+    background: white;
+    border: 1px solid #e5e7eb;
+    color: #111827;
+}
+
+    .td-btn-outline:hover {
+        background: #f9fafb;
         color: #111827;
     }
 
- 
-    .dashboard-page .btn-primary {
-        background-color: #2563eb;
-        border: none;
+/* Class list */
+.td-class-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.td-class-row {
+    border: 1px solid #eef0f4;
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.td-class-title {
+    font-weight: 800;
+    font-size: 16px;
+}
+
+.td-class-sub {
+    margin-top: 6px;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.td-class-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.td-class-count {
+    font-weight: 700;
+    color: #111827;
+}
+
+.td-btn-small {
+    border: 1px solid #e5e7eb;
+    background: white;
+    color: #111827;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 10px 16px;
+    border-radius: 12px;
+}
+
+    .td-btn-small:hover {
+        background: #f9fafb;
+        color: #111827;
     }
 
-        .dashboard-page .btn-primary:hover {
-            background-color: #1e40af;
-        }
-
-    .dashboard-page .btn-outline-primary {
-        border-color: #2563eb;
-        color: #2563eb;
+@media (max-width: 1000px) {
+    .td-stats {
+        grid-template-columns: 1fr;
     }
 
-        .dashboard-page .btn-outline-primary:hover {
-            background-color: #2563eb;
-            color: #ffffff;
-        }
-
-    .dashboard-page .btn-outline-danger {
-        border-color: #dc2626;
-        color: #dc2626;
-    }
-
-        .dashboard-page .btn-outline-danger:hover {
-            background-color: #dc2626;
-            color: #ffffff;
-        }
-
-  // CLASS CARDS
-
-    .dashboard-page .card {
-        border-radius: 18px;
-        background-color: #ffffff;
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-        .dashboard-page .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 18px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        .dashboard-page .card h5 {
-            font-size: 1.1rem;
-            color: #111827;
-        }
-
-    .dashboard-page .alert-info {
-        background-color: #eff6ff;
-        color: #1e3a8a;
-        border: none;
-        border-radius: 12px;
-    }
-
-
-@media (max-width: 768px) {
-    .dashboard-page .btn {
-        width: 100%;
+    .td-actions {
+        grid-template-columns: 1fr;
     }
 }

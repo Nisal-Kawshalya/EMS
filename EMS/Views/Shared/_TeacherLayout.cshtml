@@ -1,0 +1,105 @@
+﻿@{
+    Layout = null;
+    var title = ViewData["Title"] ?? "Teacher Dashboard";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@title - EMS</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/teacher-shell.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/css/class-details.css" asp-append-version="true" />
+
+
+</head>
+
+<body class="teacher-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-box">
+                <div class="logo-icon">
+                    <span>📘</span>
+                </div>
+                <span class="logo-text">EMS</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a class="nav-item @(IsActive("Teacher", "Dashboard"))" asp-controller="Teacher" asp-action="Dashboard">
+                <i class="bi bi-grid nav-ic"></i>
+                <span class="nav-txt">Dashboard</span>
+            </a>
+
+            <a class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Class" ? "active" : "")"
+               asp-controller="Class"
+               asp-action="Index">
+                <span class="nav-ic">📚</span>
+                <span class="nav-txt">My Classes</span>
+            </a>
+
+
+
+        </nav>
+
+
+        <a class="logout" asp-controller="Account" asp-action="Logout">
+            <i class="bi bi-box-arrow-left nav-ic"></i>
+            <span class="nav-txt">Logout</span>
+        </a>
+
+    </aside>
+
+    <!-- Main area -->
+    <div class="main">
+        <!-- Top bar -->
+        <header class="topbar">
+            <button class="toggle-btn" id="toggleSidebar" type="button" aria-label="Toggle Sidebar">☰</button>
+
+            <div class="topbar-title">Teacher Dashboard</div>
+
+            <div class="topbar-avatar">T</div>
+        </header>
+
+        <main class="content">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script>
+        const btn = document.getElementById("toggleSidebar");
+        const body = document.body;
+
+        // Start: expanded => show X
+        btn.textContent = "✕";
+
+        btn.addEventListener("click", () => {
+          body.classList.toggle("sidebar-collapsed");
+
+          // collapsed => show ☰
+          btn.textContent = body.classList.contains("sidebar-collapsed") ? "☰" : "✕";
+        });
+    </script>
+
+
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+@functions {
+    public string IsActive(string controller, string action)
+    {
+        var c = (string)ViewContext.RouteData.Values["controller"];
+        var a = (string)ViewContext.RouteData.Values["action"];
+        return (string.Equals(c, controller, StringComparison.OrdinalIgnoreCase)
+                && string.Equals(a, action, StringComparison.OrdinalIgnoreCase))
+                ? "active" : "";
+    }
+}

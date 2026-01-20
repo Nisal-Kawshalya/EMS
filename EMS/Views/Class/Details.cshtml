@@ -1,7 +1,7 @@
 ﻿@model EMS.Models.Class
 
 @{
-    ViewData["Title"] = "Class Details";
+    ViewData["Title"] = "Class-Details";
 }
 
 <link rel="stylesheet" href="~/css/class-details.css" />
@@ -9,60 +9,59 @@
 <div class="class-details-container">
 
     <!-- Back -->
-    <a asp-controller="Teacher"
-       asp-action="Dashboard"
+    <a asp-controller="Class"
+       asp-action="Index"
        class="back-link">
         ← Back to Classes
     </a>
 
+    <!-- Header Card -->
     <div class="class-header-card">
         <h4>Grade @Model.Grade - @Model.Place</h4>
         <p>@Model.ClassStudents.Count student(s)</p>
     </div>
 
-   
-    <ul class="nav nav-tabs custom-tabs">
+    <!-- Tabs -->
+    <div class="custom-tabs">
+        <a class="tab-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Class" ? "active" : "")"
+           asp-controller="Class" asp-action="Details" asp-route-id="@Model.Id">Attendance</a>
 
-        <a class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Details" ? "active" : "")"
-           asp-controller="Class"
-           asp-action="Details"
-           asp-route-id="@Model.Id">
-            Attendance
-        </a>
+        <a class="tab-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Homework" ? "active" : "")"
+           asp-controller="Homework" asp-action="Index" asp-route-classId="@Model.Id">Homework</a>
 
-        <li class="nav-item">
-            <a class="nav-link"
-               asp-controller="Homework"
-               asp-action="Index"
-               asp-route-classId="@Model.Id">
-                Homework
-            </a>
+        <a class="tab-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Notes" ? "active" : "")"
+           asp-controller="Notes" asp-action="Index" asp-route-classId="@Model.Id">Notes</a>
 
-        </li>
+        <a class="tab-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Results" ? "active" : "")"
+           asp-controller="Results" asp-action="Index" asp-route-classId="@Model.Id">Results</a>
+    </div>
 
-      
-        <li class="nav-item">
-            <a class="nav-link"
-               asp-controller="Notes"
-               asp-action="Index"
-               asp-route-classId="@Model.Id">
-                Notes
-            </a>
-        </li>
+    @{
+        // Default values (until you calculate from DB)
+        var presentCount = 0;
+        var absentCount = Model.ClassStudents.Count;
+        var percent = Model.ClassStudents.Count == 0 ? 0 : (presentCount * 100 / Model.ClassStudents.Count);
+    }
 
-       
-        <li class="nav-item">
-            <a class="nav-link"
-               asp-controller="Results"
-               asp-action="Index"
-               asp-route-classId="@Model.Id">
-                Results
-            </a>
-        </li>
+    <!-- Stats cards (like image 3) -->
+    <div class="att-stats">
+        <div class="stat-card">
+            <div class="stat-title">Present</div>
+            <div class="stat-value stat-green">@presentCount</div>
+        </div>
 
+        <div class="stat-card">
+            <div class="stat-title">Absent</div>
+            <div class="stat-value stat-red">@absentCount</div>
+        </div>
 
-    </ul>
+        <div class="stat-card">
+            <div class="stat-title">Attendance %</div>
+            <div class="stat-value stat-blue">@percent%</div>
+        </div>
+    </div>
 
+    <!-- Attendance form -->
     <form asp-controller="Attendance"
           asp-action="Save"
           method="post"
@@ -70,61 +69,40 @@
 
         <input type="hidden" name="classId" value="@Model.Id" />
 
-            <input type="hidden" name="classId" value="@Model.Id" />
-
-            <div class="d-flex align-items-center mb-3">
-                <label class="me-2 fw-bold">Date</label>
-
+        <!-- ONE toolbar only (like image 2) -->
+        <div class="att-toolbar">
+            <div class="att-date">
+                <label class="fw-semibold">Date</label>
                 <input type="date"
                        name="date"
-                       class="form-control w-auto me-3"
+                       class="form-control att-date-input"
                        required />
-
-                <button class="btn btn-primary">
-                    Save Attendance
-                </button>
             </div>
 
-           
-            @foreach (var cs in Model.ClassStudents)
-            {
-                <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+            <div class="att-actions">
+                <button type="submit" class="btn btn-primary att-save-btn">
+                    💾 Save
+                </button>
 
-                    <div>
-                        <strong>@cs.Student.Name</strong><br />
-                        <small class="text-muted">
-                            @cs.Student.StudentCode
-                        </small>
-                    </div>
-
-                    <input type="checkbox"
-                           name="presentStudentIds"
-                           value="@cs.StudentId"
-                           checked />
-                </div>
-            }
-
-        <!-- Toolbar -->
-        <div class="attendance-toolbar">
-            <label class="fw-semibold">Date</label>
-            <input type="date"
-                   name="date"
-                   class="form-control date-input"
-                   required />
-
-            <button class="btn btn-primary">
-                Save Attendance
-            </button>
+                <!-- Report button (for now this can just link to a future action) -->
+                <a class="btn btn-outline-secondary att-report-btn"
+                   asp-controller="Attendance"
+                   asp-action="Report"
+                   asp-route-classId="@Model.Id">
+                    ⬇ Report
+                </a>
+            </div>
         </div>
 
-        <!-- Student List -->
+        <hr class="att-divider" />
+
+        <!-- Student List (ONLY ONCE) -->
         @foreach (var cs in Model.ClassStudents)
         {
             <div class="student-row">
-
                 <div>
-                    <div class="student-name">@cs.Student.Name</div>
-                    <div class="student-code">@cs.Student.StudentCode</div>
+                    <div class="student-name">@(cs.Student?.Name ?? "Unknown")</div>
+                    <div class="student-code">@(cs.Student?.StudentCode ?? "N/A")</div>
                 </div>
 
                 <input type="checkbox"
@@ -133,7 +111,5 @@
                        checked />
             </div>
         }
-
     </form>
-
 </div>

@@ -12,7 +12,23 @@ public class ClassController : Controller
         _context = context;
     }
 
-    
+
+    public IActionResult Index()
+    {
+        int userId = HttpContext.Session.GetInt32("UserId")!.Value;
+        var teacher = _context.Teachers.FirstOrDefault(t => t.UserId == userId);
+
+        if (teacher == null) return RedirectToAction("Login", "Account");
+
+        var classes = _context.Classes
+            .Where(c => c.TeacherId == teacher.Id)
+            .Include(c => c.ClassStudents)
+            .ToList();
+
+        return View(classes);
+    }
+
+
     public IActionResult Create()
     {
         return View();
@@ -32,7 +48,8 @@ public class ClassController : Controller
         _context.Classes.Add(cls);
         _context.SaveChanges();
 
-        return RedirectToAction("Dashboard", "Teacher");
+        return RedirectToAction("Index", "Class");
+
     }
 
     public IActionResult Details(int id)

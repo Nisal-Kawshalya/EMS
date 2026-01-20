@@ -12,10 +12,12 @@ public class ResultsController : Controller
         _context = context;
     }
 
-    // 📊 SHOW RESULTS TAB
-    public IActionResult Index(int classId)
+    // ✅ SHOW RESULTS TAB
+    public IActionResult Index(int classId, int showForm = 0)
     {
         var cls = _context.Classes
+            .Include(c => c.ClassStudents)
+                .ThenInclude(cs => cs.Student)
             .Include(c => c.Results)
                 .ThenInclude(r => r.Student)
             .FirstOrDefault(c => c.Id == classId);
@@ -24,34 +26,71 @@ public class ResultsController : Controller
             return NotFound();
 
         ViewBag.Class = cls;
-        return View(cls.Results.ToList());
-    }
+        ViewBag.ClassId = classId;
+        ViewBag.ShowForm = showForm == 1;
 
-    // ➕ ENTER RESULTS PAGE
-    public IActionResult Create(int classId)
-    {
-        var students = _context.ClassStudents
-            .Where(cs => cs.ClassId == classId)
-            .Include(cs => cs.Student)
+        // students for the inline form
+        ViewBag.Students = cls.ClassStudents
+            .Where(cs => cs.Student != null)
             .Select(cs => cs.Student)
             .ToList();
 
-        ViewBag.ClassId = classId;
-        return View(students);
+        return View(cls.Results.ToList());
     }
 
-    // 💾 SAVE RESULTS
-    [HttpPost]
-    public IActionResult Create(int classId, string examTitle, Dictionary<int, int> marks)
+    // ✅ If someone visits /Results/Create, redirect to Index and open the form
+    [HttpGet]
+    public IActionResult Create(int classId)
     {
+        if (classId <= 0) return BadRequest();
+        return RedirectToAction("Index", new { classId, showForm = 1 });
+    }
+
+    // ✅ SAVE RESULTS (INLINE FORM POST)
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Create(int classId, string examTitle, DateTime examDate, Dictionary<int, int> marks)
+    {
+        if (classId <= 0) return BadRequest();
+
+        if (string.IsNullOrWhiteSpace(examTitle))
+        {
+            TempData["ResultsError"] = "Exam title is required.";
+            return RedirectToAction("Index", new { classId, showForm = 1 });
+        }
+
+        if (marks == null || marks.Count == 0)
+        {
+            TempData["ResultsError"] = "Please enter marks.";
+            return RedirectToAction("Index", new { classId, showForm = 1 });
+        }
+
+        // ✅ Optional: prevent duplicates for same exam (same title + date)
+        var existing = _context.Results
+            .Where(r => r.ClassId == classId && r.ExamTitle == examTitle && r.ExamDate == examDate)
+            .ToList();
+
+        if (existing.Count > 0)
+        {
+            _context.Results.RemoveRange(existing);
+            _context.SaveChanges();
+        }
+
         foreach (var item in marks)
         {
+            var studentId = item.Key;
+            var score = item.Value;
+
+            if (score < 0) score = 0;
+            if (score > 100) score = 100;
+
             _context.Results.Add(new Result
             {
                 ClassId = classId,
-                StudentId = item.Key,
-                ExamTitle = examTitle,
-                Marks = item.Value
+                StudentId = studentId,
+                ExamTitle = examTitle.Trim(),
+                ExamDate = examDate,
+                Marks = score
             });
         }
 

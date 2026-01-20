@@ -1,6 +1,8 @@
 ﻿@model List<EMS.Models.Result>
 @{
     var cls = ViewBag.Class as EMS.Models.Class;
+    var students = ViewBag.Students as List<EMS.Models.Student>;
+    bool showForm = ViewBag.ShowForm != null && (bool)ViewBag.ShowForm;
 }
 
 <link rel="stylesheet" href="~/css/class-details.css" asp-append-version="true" />
@@ -17,21 +19,81 @@
 
     @await Html.PartialAsync("_ClassTabs", cls)
 
-    <a asp-action="Create" asp-route-classId="@cls.Id"
-       class="btn btn-primary mb-3">+ Enter Results</a>
+    @if (TempData["ResultsError"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ResultsError"]</div>
+    }
 
+    <button type="button" class="btn btn-primary mb-3" onclick="toggleResultsForm()">
+        + Enter Results
+    </button>
+
+    <!-- ✅ Inline form card -->
+    <div id="resultsFormCard" class="results-form-card @(showForm ? "" : "d-none")">
+        <h4 class="mb-4">Enter Exam Results</h4>
+
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" name="classId" value="@cls.Id" />
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Exam Title</label>
+                <input name="examTitle" class="form-control results-input" placeholder="e.g., Mid-term Exam" required />
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Exam Date</label>
+                <input type="date" name="examDate" class="form-control results-input" required />
+            </div>
+
+            <h5 class="mb-3 fw-bold">Enter Marks</h5>
+
+            <div class="results-list">
+                @foreach (var s in students)
+                {
+                    <div class="result-row">
+                        <div class="student-left">
+                            <div class="student-name">@s.Name</div>
+                            <div class="student-code">@s.StudentCode</div>
+                        </div>
+
+                        <input type="number"
+                               name="marks[@s.Id]"
+                               class="marks-input"
+                               min="0"
+                               max="100"
+                               required />
+                    </div>
+                }
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button class="btn btn-primary px-4">Save Results</button>
+                <button type="button" class="btn btn-outline-secondary px-4" onclick="toggleResultsForm()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <hr class="my-4" />
+
+    <!-- ✅ Display results (simple table) -->
     <table class="table table-bordered">
         <thead>
             <tr>
+                <th>Exam</th>
+                <th>Date</th>
                 <th>Student Code</th>
                 <th>Name</th>
                 <th>Marks</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var r in Model)
+            @foreach (var r in Model.OrderByDescending(x => x.ExamDate).ThenBy(x => x.Student.StudentCode))
             {
                 <tr>
+                    <td>@r.ExamTitle</td>
+                    <td>@r.ExamDate.ToString("yyyy-MM-dd")</td>
                     <td>@r.Student.StudentCode</td>
                     <td>@r.Student.Name</td>
                     <td>@r.Marks</td>
@@ -40,3 +102,14 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    function toggleResultsForm() {
+        const card = document.getElementById("resultsFormCard");
+        card.classList.toggle("d-none");
+
+        if (!card.classList.contains("d-none")) {
+            card.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    }
+</script>

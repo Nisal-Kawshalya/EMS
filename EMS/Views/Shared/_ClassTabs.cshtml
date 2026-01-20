@@ -42,4 +42,16 @@
         </a>
     </li>
 
+    <!-- Student -->
+    <li class="nav-item">
+        <a class="tab-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Addstudent" ? "active" : "")"
+           asp-controller="Addstudent"
+           asp-action="Index"
+           asp-route-classId="@Model.Id">
+            Students
+        </a>
+
+
+    </li>
+
 </ul>

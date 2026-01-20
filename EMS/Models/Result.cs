@@ -24,6 +24,12 @@ namespace EMS.Models
         public int Marks { get; set; }
 
 
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Due Date")]
+        public DateTime ExamDate { get; set; }
+
+
 
         [ForeignKey("ClassId")]
         public Class? Class { get; set; }

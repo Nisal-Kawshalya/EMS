@@ -34,6 +34,9 @@
 
         <a class="tab-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Results" ? "active" : "")"
            asp-controller="Results" asp-action="Index" asp-route-classId="@Model.Id">Results</a>
+
+        <a class="tab-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Student" ? "active" : "")"
+           asp-controller="Addstudent" asp-action="Index" asp-route-classId="@Model.Id">Student</a>
     </div>
 
     @{

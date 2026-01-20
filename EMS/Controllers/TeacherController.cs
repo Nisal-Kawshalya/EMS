@@ -11,21 +11,32 @@ public class TeacherController : Controller
         _context = context;
     }
 
-
     public IActionResult Dashboard()
     {
-    
         int userId = HttpContext.Session.GetInt32("UserId")!.Value;
 
-  
         var teacher = _context.Teachers
             .FirstOrDefault(t => t.UserId == userId);
 
-        var classes = _context.Classes
-            .Where(c => c.TeacherId == teacher!.Id)
+        if (teacher == null)
+            return RedirectToAction("Login", "Account");
+
+        //  ALL classes for totals
+        var allClasses = _context.Classes
+            .Where(c => c.TeacherId == teacher.Id)
             .Include(c => c.ClassStudents)
             .ToList();
 
-        return View(classes);
+        //  ONLY 4 recent classes to show in dashboard list
+        var recentClasses = allClasses
+            .OrderByDescending(c => c.Id)
+            .Take(4)
+            .ToList();
+
+        //  totals (use allClasses, not recentClasses)
+        ViewBag.TotalClasses = allClasses.Count;
+        ViewBag.TotalStudents = allClasses.Sum(c => c.ClassStudents.Count);
+
+        return View(recentClasses);
     }
 }

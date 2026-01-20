@@ -1,12 +1,16 @@
-﻿@{
+﻿@model List<EMS.Models.Class>
+
+@{
     ViewData["Title"] = "Teacher Dashboard";
-   
+
+    int totalClasses = ViewBag.TotalClasses ?? 0;
+    int totalStudents = ViewBag.TotalStudents ?? 0;
 }
 
-<link rel="stylesheet" href="~/css/teacher-dashboard.css" />
+
+<link rel="stylesheet" href="~/css/teacher-dashboard.css" asp-append-version="true" />
 
 <div class="td-page">
-    
 
     <div class="td-header">
         <h1>Welcome Back, Teacher</h1>
@@ -18,7 +22,7 @@
         <div class="td-stat-card">
             <div>
                 <div class="td-stat-label">Total Students</div>
-                <div class="td-stat-value">124</div>
+                <div class="td-stat-value">@totalStudents</div>
             </div>
             <div class="td-stat-icon td-icon-blue">
                 <span>👥</span>
@@ -28,7 +32,7 @@
         <div class="td-stat-card">
             <div>
                 <div class="td-stat-label">Total Classes</div>
-                <div class="td-stat-value">8</div>
+                <div class="td-stat-value">@totalClasses</div>
             </div>
             <div class="td-stat-icon td-icon-green">
                 <span>📘</span>
@@ -46,43 +50,45 @@
         </div>
     </div>
 
-    <!-- QUICK ACTIONS -->
-    <div class="td-card">
-        <div class="td-card-title">Quick Actions</div>
-        <div class="td-card-subtitle">Common tasks you perform frequently</div>
-
-        <div class="td-actions">
-            <a class="td-btn td-btn-primary" asp-controller="Class" asp-action="Create">
-                + New Class
-            </a>
-            <a class="td-btn td-btn-outline" asp-controller="Attendance" asp-action="Index">
-                Mark Attendance
-            </a>
-            <a class="td-btn td-btn-outline" asp-controller="Notes" asp-action="Create">
-                Post Announcement
-            </a>
-            <a class="td-btn td-btn-outline" asp-controller="Results" asp-action="Create">
-                Enter Results
-            </a>
-        </div>
-    </div>
-
     <!-- CLASSES LIST -->
     <div class="td-card">
         <div class="td-card-title">Your Classes</div>
         <div class="td-card-subtitle">Classes you're currently teaching</div>
 
         <div class="td-class-list">
-            <div class="td-class-row">
-             
-
-                <div class="td-class-right">
-                    <div class="td-class-count">0 Students</div>
-                    <a class="td-btn-small" asp-controller="Class" asp-action="Details" asp-route-id="1">
-                        Manage
-                    </a>
+            @if (Model == null || Model.Count == 0)
+            {
+                <div class="p-3 text-muted">
+                    No classes found.
                 </div>
-            </div>
+            }
+            else
+            {
+                @foreach (var cls in Model)
+                {
+                    <div class="td-class-row">
+                        <!-- LEFT SIDE -->
+                        <div class="td-class-left">
+                            <div class="td-class-name">Grade @cls.Grade - @cls.Place</div>
+                            <div class="td-class-room">@cls.Place</div>
+                        </div>
+
+                        <!-- RIGHT SIDE -->
+                        <div class="td-class-right">
+                            <div class="td-class-count">
+                                @(cls.ClassStudents?.Count ?? 0) Students
+                            </div>
+
+                            <a class="td-btn-small"
+                               asp-controller="Class"
+                               asp-action="Details"
+                               asp-route-id="@cls.Id">
+                                Manage
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
         </div>
     </div>
 </div>

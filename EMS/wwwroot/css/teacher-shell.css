@@ -1,191 +1,251 @@
-﻿html, body {
+﻿/* =========================
+   TEACHER SHELL - FINAL FIX
+   ✅ Sidebar fixed (no scroll)
+   ✅ Topbar sticky (no scroll)
+   ✅ Only content scrolls
+   ✅ Full width (ignores site.css max-width)
+========================= */
+
+/* Kill global limits */
+html, body {
     height: 100%;
-    margin: 0;
-    padding: 0;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important; /* ✅ page never scrolls */
 }
 
+    /* Teacher shell body */
+    body.teacher-shell {
+        height: 100vh;
+        width: 100vw;
+        max-width: none !important; /* ✅ stop narrow centered layout */
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        background: #f6f7fb;
+        font-family: system-ui, Arial, sans-serif;
+    }
+
+/* Variables */
+:root {
+    --sidebar-w: 280px;
+    --sidebar-w-collapsed: 80px;
+    --topbar-h: 70px;
+}
+
+/* Root wrapper */
 .teacher-shell {
-    background: #f6f7fb;
-    display: flex;
-    min-height: 100vh;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
 }
 
-.teacher-shell {
-    margin: 0;
-    background: #f6f7fb;
-    display: flex;
-    min-height: 100vh;
-    font-family: system-ui, Arial, sans-serif;
-}
-
-/* Sidebar */
-.sidebar {
-    width: 280px;
-    background: #f7f8fa;
-    border-right: 1px solid #e5e7eb;
-    display: flex;
-    flex-direction: column;
-    transition: width 0.2s ease;
-}
-
-.sidebar-header {
-    padding: 20px 18px;
-    border-bottom: 1px solid #e5e7eb;
-}
-
-.logo-box {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.logo-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 12px;
-    background: #003a8c;
-    color: #fff;
-    display: grid;
-    place-items: center;
-    font-size: 22px;
-}
-
-.logo-text {
-    font-weight: 800;
-    font-size: 18px;
-    color: #111827;
-}
-
-/* Nav */
-.sidebar-nav {
-    
-    padding: 14px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px; 
-}
-
-.nav-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
-    border-radius: 10px;
-    color: #111827;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-    .nav-item:hover {
-        background: #e9edf6;
+    /* =========================
+   SIDEBAR (fixed)
+========================= */
+    .teacher-shell .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: var(--sidebar-w);
+        height: 100vh;
+        background: #f7f8fa;
+        border-right: 1px solid #e5e7eb;
+        display: flex;
+        flex-direction: column;
+        transition: width 0.2s ease;
+        overflow: hidden;
+        z-index: 2000;
     }
 
-    .nav-item.active {
-        background: #dbe7ff;
-        color: #003a8c;
+    .teacher-shell .sidebar-header {
+        padding: 20px 18px;
+        border-bottom: 1px solid #e5e7eb;
     }
 
-.nav-ic {
-    font-size: 20px;
-    width: 26px;
-    text-align: center;
-}
-
-/* Footer */
-.sidebar-footer {
-    margin-top: auto;
-    padding: 16px 14px;
-    border-top: 1px solid #e5e7eb;
-}
-
-.logout {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-    border-radius: 12px;
-    text-decoration: none;
-    color: #111827;
-    font-weight: 600;
-}
-
-    .logout:hover {
-        background: #e9edf6;
+    .teacher-shell .logo-box {
+        display: flex;
+        align-items: center;
+        gap: 14px;
     }
 
-/* Main */
-.main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-}
+    .teacher-shell .logo-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        background: #003a8c;
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-size: 22px;
+    }
 
-.topbar {
-    height: 70px;
-    background: #fff;
-    border-bottom: 1px solid #e5e7eb;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 22px;
-}
+    .teacher-shell .logo-text {
+        font-weight: 800;
+        font-size: 18px;
+        color: #111827;
+    }
 
-.toggle-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    border: 1px solid #e5e7eb;
-    background: #ffffff; /* ✅ default white */
-    color: #111827; /* ✅ default black */
-    font-size: 22px;
-    display: grid;
-    place-items: center;
-    transition: 0.15s;
-}
+    /* Nav */
+    .teacher-shell .sidebar-nav {
+        padding: 14px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
 
-.toggle-btn:hover {
-    background: #003a8c; /* ✅ blue only on hover */
-    color: #fff;
-    border-color: #003a8c;
-}
+    .teacher-shell .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        color: #111827;
+        text-decoration: none;
+        font-weight: 600;
+    }
 
+        .teacher-shell .nav-item:hover {
+            background: #e9edf6;
+        }
 
-.topbar-title {
-    font-weight: 600;
-    color: #111827;
-}
+        .teacher-shell .nav-item.active {
+            background: #dbe7ff;
+            color: #003a8c;
+        }
 
-.topbar-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: #003a8c;
-    color: #fff;
-    display: grid;
-    place-items: center;
-    font-weight: 800;
-}
+    .teacher-shell .nav-ic {
+        font-size: 20px;
+        width: 26px;
+        text-align: center;
+    }
 
-.content {
-    padding: 26px;
-    margin: 0;
-}
+    /* Logout */
+    .teacher-shell .logout {
+        margin-top: auto;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        text-decoration: none;
+        color: #111827;
+        font-weight: 600;
+    }
 
+        .teacher-shell .logout:hover {
+            background: #e9edf6;
+        }
 
-/* Collapsed sidebar (icons only like 2nd image) */
-.teacher-shell.sidebar-collapsed .sidebar {
-    width: 92px;
-}
+    /* =========================
+   MAIN AREA
+========================= */
+    .teacher-shell .main {
+        margin-left: var(--sidebar-w);
+        width: calc(100vw - var(--sidebar-w));
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; /* ✅ main never scrolls */
+        min-width: 0;
+    }
 
-.teacher-shell.sidebar-collapsed .logo-text,
-.teacher-shell.sidebar-collapsed .nav-txt {
-    display: none;
-}
+    /* =========================
+   TOPBAR
+========================= */
+    .teacher-shell .topbar {
+        height: var(--topbar-h);
+        background: #fff;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 22px;
+        position: sticky;
+        top: 0;
+        z-index: 1500;
+        flex: 0 0 auto;
+        width: 100%;
+    }
 
-.teacher-shell.sidebar-collapsed .nav-item,
-.teacher-shell.sidebar-collapsed .logout {
-    justify-content: center;
-    padding-left: 0;
-    padding-right: 0;
-}
+    .teacher-shell .toggle-btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        background: #ffffff;
+        color: #111827;
+        font-size: 22px;
+        display: grid;
+        place-items: center;
+        transition: 0.15s;
+    }
+
+        .teacher-shell .toggle-btn:hover {
+            background: #003a8c;
+            color: #fff;
+            border-color: #003a8c;
+        }
+
+    .teacher-shell .topbar-title {
+        font-weight: 600;
+        color: #111827;
+    }
+
+    .teacher-shell .topbar-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #003a8c;
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+    }
+
+    /* =========================
+   CONTENT (ONLY THIS SCROLLS)
+========================= */
+    .teacher-shell .content {
+        flex: 1 1 auto;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 24px;
+        width: 100%;
+        max-width: none !important;
+    }
+
+        /* ✅ Bootstrap containers full width inside teacher pages */
+        .teacher-shell .content .container,
+        .teacher-shell .content .container-sm,
+        .teacher-shell .content .container-md,
+        .teacher-shell .content .container-lg,
+        .teacher-shell .content .container-xl,
+        .teacher-shell .content .container-xxl {
+            max-width: 100% !important;
+        }
+
+    /* =========================
+   COLLAPSED SIDEBAR
+========================= */
+    .teacher-shell.sidebar-collapsed .sidebar {
+        width: var(--sidebar-w-collapsed);
+    }
+
+    .teacher-shell.sidebar-collapsed .main {
+        margin-left: var(--sidebar-w-collapsed);
+        width: calc(100vw - var(--sidebar-w-collapsed));
+    }
+
+    .teacher-shell.sidebar-collapsed .logo-text,
+    .teacher-shell.sidebar-collapsed .nav-txt {
+        display: none;
+    }
+
+    .teacher-shell.sidebar-collapsed .nav-item,
+    .teacher-shell.sidebar-collapsed .logout {
+        justify-content: center;
+        padding-left: 0;
+        padding-right: 0;
+    }

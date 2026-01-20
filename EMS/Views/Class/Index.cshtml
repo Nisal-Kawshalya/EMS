@@ -29,7 +29,7 @@
         var count = c.ClassStudents?.Count ?? 0;
 
         <div class="class-card" data-text="@($"{c.Grade} {c.Place}".ToLower())">
-            <h3 class="class-title">Grade @c.Grade</h3>
+            <h3 class="class-title">@c.Subject - Grade @c.Grade</h3>
 
             <div class="row-item">
                 <span class="dot">📍</span>
@@ -50,7 +50,7 @@
                 </a>
 
                 <a class="btn-outline"
-                   asp-controller="Student"
+                   asp-controller="Addstudent"
                    asp-action="Index"
                    asp-route-classId="@c.Id">
                     Add Student

@@ -11,6 +11,9 @@ namespace EMS.Models
 
         public int TeacherId { get; set; }
 
+        [StringLength(100, ErrorMessage = "Place can not exceed 100 characters")]
+        public required string Subject { get; set; }
+
         [Range(1, 13, ErrorMessage = "Grade must be between 1 and 13")]
         public required string Grade { get; set; }
 

@@ -19,4 +19,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\homework\" />
+    <Folder Include="wwwroot\uploads\notes\" />
+  </ItemGroup>
+
 </Project>

@@ -54,9 +54,17 @@ namespace EMS.Data
                 .HasForeignKey(c => c.TeacherId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // ---------- CLASS-STUDENT (M-M) ----------
+            // ---------- CLASS-STUDENT (M-M) ✅ FIXED ----------
             modelBuilder.Entity<ClassStudent>()
-                .HasKey(cs => new { cs.ClassId, cs.StudentId });
+                .HasKey(cs => cs.Id);
+
+            modelBuilder.Entity<ClassStudent>()
+                .Property(cs => cs.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<ClassStudent>()
+                .HasIndex(cs => new { cs.ClassId, cs.StudentId })
+                .IsUnique();
 
             modelBuilder.Entity<ClassStudent>()
                 .HasOne(cs => cs.Class)
@@ -103,16 +111,12 @@ namespace EMS.Data
                 .HasForeignKey(h => h.ClassId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-
-
             // ---------- NOTES ----------
             modelBuilder.Entity<Note>()
                 .HasOne(n => n.Class)
                 .WithMany(c => c.Notes)
                 .HasForeignKey(n => n.ClassId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-
         }
     }
 }

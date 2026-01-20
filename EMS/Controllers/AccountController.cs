@@ -44,6 +44,7 @@ namespace EMS.Controllers
                 PasswordHash = Hash(password),
                 Role = role
             };
+
             _context.Users.Add(user);
             _context.SaveChanges();
 
@@ -90,20 +91,19 @@ namespace EMS.Controllers
             }
 
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
+
             if (user == null || user.PasswordHash != Hash(password))
             {
                 ViewBag.Error = "Invalid email or password";
                 return View();
             }
 
-            // Create session
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("Role", user.Role);
 
-            // Redirect by role
             return user.Role == "Teacher"
-                ? RedirectToAction("Index", "Home")
-                : RedirectToAction("Index", "Home");
+                ? RedirectToAction("Dashboard", "Teacher")
+                : RedirectToAction("Dashboard", "Student"); 
         }
 
         [HttpGet]
@@ -122,5 +122,3 @@ namespace EMS.Controllers
         }
     }
 }
-
-

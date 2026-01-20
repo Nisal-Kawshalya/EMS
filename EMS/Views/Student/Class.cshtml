@@ -1,0 +1,132 @@
+﻿@model EMS.Models.Class
+@{
+    string tab = ViewBag.ActiveTab ?? "Homework";
+}
+
+<div class="container mt-4">
+
+    <a asp-action="Dashboard" asp-controller="Student">
+        ← Back to Classes
+    </a>
+
+    <!-- CLASS HEADER -->
+    <div class="card mt-3 mb-4 shadow-sm">
+        <div class="card-body">
+            <h4>Grade @Model.Grade - @Model.Place</h4>
+            <p class="text-muted">
+                Teacher: @Model.Teacher?.Name
+            </p>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <ul class="nav nav-tabs mb-3">
+
+        <li class="nav-item">
+            <a class="nav-link @(tab == "Homework" ? "active" : "")"
+               asp-action="Class"
+               asp-route-classId="@Model.Id"
+               asp-route-tab="Homework">
+                Homework
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link @(tab == "Notes" ? "active" : "")"
+               asp-action="Class"
+               asp-route-classId="@Model.Id"
+               asp-route-tab="Notes">
+                Notes
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link @(tab == "Results" ? "active" : "")"
+               asp-action="Class"
+               asp-route-classId="@Model.Id"
+               asp-route-tab="Results">
+                Results
+            </a>
+        </li>
+
+    </ul>
+
+    <!-- HOMEWORK -->
+    @if (tab == "Homework")
+    {
+        if (Model.Homeworks != null && Model.Homeworks.Any())
+        {
+            foreach (var hw in Model.Homeworks)
+            {
+                <div class="card mb-3">
+                    <div class="card-body d-flex justify-content-between">
+                        <div>
+                            <strong>@hw.Title</strong><br />
+                            <small>Due: @hw.DueDate.ToShortDateString()</small>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(hw.AssssignmentFile))
+                        {
+                            <a href="@hw.AssssignmentFile"
+                               class="btn btn-outline-secondary">
+                                Download
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="alert alert-info">No homework available.</div>
+        }
+    }
+
+    <!-- NOTES -->
+    @if (tab == "Notes")
+    {
+        if (Model.Notes != null && Model.Notes.Any())
+        {
+            foreach (var note in Model.Notes)
+            {
+                <div class="card mb-3">
+                    <div class="card-body d-flex justify-content-between">
+                        <strong>@note.Title</strong>
+                        <a href="@note.NotesFile"
+                           class="btn btn-outline-secondary">
+                            Download
+                        </a>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="alert alert-info">No notes available.</div>
+        }
+    }
+
+    <!-- RESULTS -->
+    @if (tab == "Results")
+    {
+        if (Model.Results != null && Model.Results.Any())
+        {
+            foreach (var r in Model.Results)
+            {
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <strong>@r.ExamTitle</strong><br />
+                        <span class="text-success">
+                            Marks: @r.Marks
+                        </span>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="alert alert-info">No results published yet.</div>
+        }
+    }
+
+</div>

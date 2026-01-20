@@ -1,0 +1,76 @@
+﻿@model List<EMS.Models.Class>
+@{
+    ViewData["Title"] = "My Classes";
+}
+
+<link rel="stylesheet" href="~/css/my-classes.css" asp-append-version="true" />
+
+<div class="myclasses-header">
+    <div>
+        <h1 class="page-title">My Classes</h1>
+        <p class="page-subtitle">Manage all your classes and students</p>
+    </div>
+
+    <a class="btn-primary"
+       asp-controller="Class"
+       asp-action="Create">
+        <span class="plus">+</span> New Class
+    </a>
+</div>
+
+<div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input id="classSearch" type="text" placeholder="Search by grade or section..." />
+</div>
+
+<div class="class-grid" id="classGrid">
+    @foreach (var c in Model)
+    {
+        var count = c.ClassStudents?.Count ?? 0;
+
+        <div class="class-card" data-text="@($"{c.Grade} {c.Place}".ToLower())">
+            <h3 class="class-title">Grade @c.Grade</h3>
+
+            <div class="row-item">
+                <span class="dot">📍</span>
+                <span>@c.Place</span>
+            </div>
+
+            <div class="row-item">
+                <span class="dot">👥</span>
+                <span>@count Students</span>
+            </div>
+
+            <div class="card-actions">
+                <a class="btn-outline"
+                   asp-controller="Class"
+                   asp-action="Details"
+                   asp-route-id="@c.Id">
+                    View Details
+                </a>
+
+                <a class="btn-outline"
+                   asp-controller="Student"
+                   asp-action="Index"
+                   asp-route-classId="@c.Id">
+                    Add Student
+                </a>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        const input = document.getElementById("classSearch");
+        const cards = document.querySelectorAll(".class-card");
+
+        input.addEventListener("input", () => {
+            const q = input.value.toLowerCase().trim();
+            cards.forEach(card => {
+                const text = card.getAttribute("data-text");
+                card.style.display = text.includes(q) ? "" : "none";
+            });
+        });
+    </script>
+}

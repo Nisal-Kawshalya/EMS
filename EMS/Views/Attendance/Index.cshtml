@@ -1,0 +1,94 @@
+﻿@model List<EMS.Models.Student>
+
+@{
+    var cls = (EMS.Models.Class)ViewBag.Class;
+    var selectedDate = (DateTime)ViewBag.SelectedDate;
+
+    var present = (int)ViewBag.Present;
+    var absent = (int)ViewBag.Absent;
+    var percent = (int)ViewBag.Percent;
+
+    var statusMap = (Dictionary<int, bool>)ViewBag.StatusMap;
+}
+
+<link rel="stylesheet" href="~/css/attendance.css" asp-append-version="true" />
+
+<div class="attendance-container">
+
+    <a asp-controller="Class" asp-action="Details" asp-route-id="@cls.Id" class="back-link">
+        ← Back to Class
+    </a>
+
+    <div class="class-card">
+        <h4>Grade @cls.Grade - @cls.Place</h4>
+        <p>@Model.Count student(s)</p>
+    </div>
+
+    <!-- Stats cards like your image -->
+    <div class="att-stats">
+        <div class="att-stat-card">
+            <div class="att-stat-title">Present</div>
+            <div class="att-stat-value present">@present</div>
+        </div>
+        <div class="att-stat-card">
+            <div class="att-stat-title">Absent</div>
+            <div class="att-stat-value absent">@absent</div>
+        </div>
+        <div class="att-stat-card">
+            <div class="att-stat-title">Attendance %</div>
+            <div class="att-stat-value percent">@percent%</div>
+        </div>
+    </div>
+
+    <form asp-controller="Attendance" asp-action="Save" method="post" class="attendance-card">
+        <input type="hidden" name="classId" value="@cls.Id" />
+
+        <!-- Toolbar: Date + Save + Report (same row like image) -->
+        <div class="attendance-toolbar2">
+            <div class="toolbar-left">
+                <label class="fw-semibold">Date</label>
+
+                <input type="date"
+                       name="date"
+                       class="form-control date-input"
+                       value="@selectedDate.ToString("yyyy-MM-dd")"
+                       required />
+            </div>
+
+            <div class="toolbar-right">
+                <button type="submit" class="btn btn-primary btn-save">
+                    💾 Save
+                </button>
+
+                <a class="btn btn-outline-secondary btn-report"
+                   asp-controller="Attendance"
+                   asp-action="Report"
+                   asp-route-classId="@cls.Id"
+                   asp-route-date="@selectedDate.ToString("yyyy-MM-dd")">
+                    ⬇ Report
+                </a>
+            </div>
+        </div>
+
+        <!-- Student list -->
+        @foreach (var student in Model)
+        {
+            bool isPresent = false;
+            if (statusMap.ContainsKey(student.Id)) isPresent = statusMap[student.Id];
+            else isPresent = true; // default checked if no saved records
+
+            <div class="student-row">
+                <div>
+                    <div class="student-name">@student.Name</div>
+                    <div class="student-code">@student.StudentCode</div>
+                </div>
+
+                <input type="checkbox"
+                       name="presentStudentIds"
+                       value="@student.Id"
+                       @(isPresent ? "checked" : "") />
+            </div>
+        }
+    </form>
+
+</div>

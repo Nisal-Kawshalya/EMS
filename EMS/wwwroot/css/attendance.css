@@ -1,0 +1,144 @@
+﻿body {
+    background: #f8fafc;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* Page */
+.attendance-container {
+    max-width: 1100px;
+    margin: 20px auto;
+}
+
+/* Back link */
+.back-link {
+    display: inline-block;
+    margin-bottom: 15px;
+    color: #475569;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* Class header */
+.class-card {
+    background: #ffffff;
+    padding: 18px 22px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+    .class-card p {
+        margin: 0;
+        color: #64748b;
+    }
+
+/* Stats cards row */
+.att-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.att-stat-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 18px 22px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.att-stat-title {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.att-stat-value {
+    font-size: 34px;
+    font-weight: 800;
+}
+
+    .att-stat-value.present {
+        color: #16a34a;
+    }
+
+    .att-stat-value.absent {
+        color: #dc2626;
+    }
+
+    .att-stat-value.percent {
+        color: #1d4ed8;
+    }
+
+/* Attendance card */
+.attendance-card {
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    padding: 18px 22px;
+}
+
+/* Toolbar (Date + Save + Report) */
+.attendance-toolbar2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 10px;
+}
+
+.toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.date-input {
+    width: 220px;
+    border-radius: 10px;
+}
+
+/* buttons */
+.btn-save {
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.btn-report {
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+/* Student rows */
+.student-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+    .student-row:last-child {
+        border-bottom: none;
+    }
+
+.student-name {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 16px;
+}
+
+.student-code {
+    font-size: 12px;
+    color: #94a3b8;
+}

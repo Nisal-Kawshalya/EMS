@@ -1,0 +1,42 @@
+﻿@model List<EMS.Models.Result>
+@{
+    var cls = ViewBag.Class as EMS.Models.Class;
+}
+
+<link rel="stylesheet" href="~/css/class-details.css" asp-append-version="true" />
+
+<div class="container mt-4">
+
+    <a asp-controller="Teacher" asp-action="Dashboard">← Back to Classes</a>
+
+    <div class="card mt-3 mb-3">
+        <div class="card-body">
+            <h4>Grade @cls.Grade - @cls.Place</h4>
+        </div>
+    </div>
+
+    @await Html.PartialAsync("_ClassTabs", cls)
+
+    <a asp-action="Create" asp-route-classId="@cls.Id"
+       class="btn btn-primary mb-3">+ Enter Results</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Student Code</th>
+                <th>Name</th>
+                <th>Marks</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.Student.StudentCode</td>
+                    <td>@r.Student.Name</td>
+                    <td>@r.Marks</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

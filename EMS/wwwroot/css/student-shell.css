@@ -1,0 +1,296 @@
+﻿/* ===================================
+   STUDENT SHELL - MATCHING TEACHER DASHBOARD
+=================================== */
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+body.student-shell {
+    height: 100vh;
+    width: 100vw;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: #f6f7fb;
+    font-family: system-ui, Arial, sans-serif;
+}
+
+:root {
+    --sidebar-w: 280px;
+    --sidebar-w-collapsed: 80px;
+    --topbar-h: 70px;
+}
+
+.student-shell {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+/* ===================================
+   SIDEBAR (fixed)
+=================================== */
+
+.student-shell .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-w);
+    height: 100vh;
+    background: #f7f8fa;
+    border-right: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.2s ease;
+    overflow: hidden;
+    z-index: 2000;
+}
+
+.student-shell .sidebar-header {
+    padding: 20px 18px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.student-shell .logo-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.student-shell .logo-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: #003a8c;
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+}
+
+.student-shell .logo-text {
+    font-weight: 800;
+    font-size: 18px;
+    color: #111827;
+}
+
+/* Nav */
+.student-shell .sidebar-nav {
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.student-shell .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: #111827;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.student-shell .nav-item:hover {
+    background: #e9edf6;
+}
+
+.student-shell .nav-item.active {
+    background: #dbe7ff;
+    color: #003a8c;
+}
+
+.student-shell .nav-ic {
+    font-size: 20px;
+    width: 26px;
+    text-align: center;
+}
+
+/* Logout */
+.student-shell .logout {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #111827;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.student-shell .logout:hover {
+    background: #e9edf6;
+}
+
+/* ===================================
+   MAIN AREA
+=================================== */
+
+.student-shell .main {
+    margin-left: var(--sidebar-w);
+    width: calc(100vw - var(--sidebar-w));
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+}
+
+/* ===================================
+   TOPBAR
+=================================== */
+
+.student-shell .topbar {
+    height: var(--topbar-h);
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+    position: sticky;
+    top: 0;
+    z-index: 1500;
+    flex: 0 0 auto;
+    width: 100%;
+}
+
+.student-shell .toggle-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: #111827;
+    font-size: 22px;
+    display: grid;
+    place-items: center;
+    transition: all 0.15s;
+    cursor: pointer;
+}
+
+.student-shell .toggle-btn:hover {
+    background: #003a8c;
+    color: #fff;
+    border-color: #003a8c;
+}
+
+.student-shell .topbar-title {
+    font-weight: 600;
+    color: #111827;
+    font-size: 18px;
+}
+
+.student-shell .topbar-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #003a8c;
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 18px;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.student-shell .topbar-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.student-shell .topbar-avatar-ic {
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* ===================================
+   CONTENT (ONLY THIS SCROLLS)
+=================================== */
+
+.student-shell .content {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 24px;
+    width: 100%;
+    max-width: none !important;
+}
+
+.student-shell .content .container,
+.student-shell .content .container-sm,
+.student-shell .content .container-md,
+.student-shell .content .container-lg,
+.student-shell .content .container-xl,
+.student-shell .content .container-xxl {
+    max-width: 100% !important;
+}
+
+/* ===================================
+   COLLAPSED SIDEBAR
+=================================== */
+
+.student-shell.sidebar-collapsed .sidebar {
+    width: var(--sidebar-w-collapsed);
+}
+
+.student-shell.sidebar-collapsed .main {
+    margin-left: var(--sidebar-w-collapsed);
+    width: calc(100vw - var(--sidebar-w-collapsed));
+}
+
+.student-shell.sidebar-collapsed .logo-text,
+.student-shell.sidebar-collapsed .nav-txt {
+    display: none;
+}
+
+.student-shell.sidebar-collapsed .nav-item,
+.student-shell.sidebar-collapsed .logout {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* ===================================
+   RESPONSIVE
+=================================== */
+
+@media (max-width: 768px) {
+    :root {
+        --sidebar-w: 250px;
+    }
+
+    .student-shell .sidebar {
+        position: fixed;
+        left: -250px;
+        transition: left 0.3s ease;
+    }
+
+    .student-shell.sidebar-collapsed .sidebar {
+        left: 0;
+    }
+
+    .student-shell .main {
+        margin-left: 0;
+        width: 100vw;
+    }
+
+    .student-shell.sidebar-collapsed .main {
+        margin-left: 0;
+        width: 100vw;
+    }
+}

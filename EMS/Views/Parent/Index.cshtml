@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Parent Access";
+}
+
+<div class="container mt-5" style="max-width:500px;">
+    <h3>Parent Access</h3>
+    <p class="text-muted">Enter Student Code to view student details.</p>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <form method="post">
+        @Html.AntiForgeryToken()
+
+        <input name="studentCode"
+               class="form-control mb-3"
+               placeholder="STD-2026-AB12"
+               required />
+
+        <button class="btn btn-dark w-100" type="submit">View Student</button>
+    </form>
+</div>

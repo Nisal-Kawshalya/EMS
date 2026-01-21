@@ -1,0 +1,64 @@
+﻿@model EMS.Models.Student
+
+@{
+    ViewData["Title"] = "Student Profile";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="container mt-4" style="max-width: 900px;">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3 class="mb-0">Student Profile</h3>
+    </div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        @if (!string.IsNullOrWhiteSpace(Model.ProfileImagePath))
+                        {
+                            <img src="@Model.ProfileImagePath" alt="Profile" class="rounded-circle" style="width: 140px; height: 140px; object-fit: cover;" />
+                        }
+                        else
+                        {
+                            <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center" style="width: 140px; height: 140px; font-size: 54px;">
+                                👤
+                            </div>
+                        }
+                    </div>
+
+                    <form asp-controller="Student" asp-action="UploadProfilePhoto" method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+
+                        <input type="file" name="photo" class="form-control mb-2" accept="image/*" required />
+                        <button type="submit" class="btn btn-primary w-100">Upload Photo</button>
+
+                        <div class="text-muted mt-2" style="font-size: 12px;">
+                            JPG/PNG/WebP, max 2MB
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <p><b>Name:</b> @Model.Name</p>
+                    <p><b>Phone:</b> @Model.PhoneNumber</p>
+                    <p><b>Student Code:</b> <span class="badge bg-dark">@Model.StudentCode</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

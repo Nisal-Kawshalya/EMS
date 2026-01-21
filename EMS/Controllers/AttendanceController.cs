@@ -120,6 +120,39 @@ public class AttendanceController : Controller
         return File(System.Text.Encoding.UTF8.GetBytes(csv), "text/csv", fileName);
     }
 
+    // ✅ STUDENT VIEW: show only logged-in student's attendance for a class
+    [HttpGet]
+    public IActionResult Student(int classId)
+    {
+        var userId = HttpContext.Session.GetInt32("UserId");
+        var role = HttpContext.Session.GetString("Role");
+
+        if (userId == null || role != "Student")
+            return RedirectToAction("Login", "Account");
+
+        var student = _context.Students.FirstOrDefault(s => s.UserId == userId.Value);
+        if (student == null) return RedirectToAction("Login", "Account");
+
+        var enrolled = _context.ClassStudents.Any(cs => cs.ClassId == classId && cs.StudentId == student.Id);
+        if (!enrolled) return Forbid();
+
+        var cls = _context.Classes
+            .Include(c => c.Teacher)
+            .FirstOrDefault(c => c.Id == classId);
+
+        if (cls == null) return NotFound();
+
+        var list = _context.Attendences
+            .Where(a => a.ClassId == classId && a.StudentId == student.Id)
+            .OrderByDescending(a => a.Date)
+            .ToList();
+
+        ViewBag.Class = cls;
+        ViewBag.Student = student;
+
+        return View("Student", list);
+    }
+
     private string Escape(string? text)
     {
         text ??= "";

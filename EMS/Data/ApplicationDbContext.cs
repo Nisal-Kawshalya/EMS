@@ -33,6 +33,10 @@ namespace EMS.Data
                 .HasIndex(s => s.PhoneNumber)
                 .IsUnique();
 
+            modelBuilder.Entity<Student>()
+                .HasIndex(s => s.StudentCode)
+                .IsUnique();
+
             // ---------- USER 1-1 STUDENT ----------
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Student)

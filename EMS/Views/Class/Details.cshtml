@@ -2,6 +2,15 @@
 
 @{
     ViewData["Title"] = "Class-Details";
+    var studentCount = Model.ClassStudents?.Count ?? 0;
+
+    // Default stats (your original placeholders)
+    var presentCount = 0;
+    var absentCount = studentCount;
+    var percent = studentCount == 0 ? 0 : (presentCount * 100 / studentCount);
+
+    // For Report button (AttendanceController.Report requires date)
+    var reportDate = DateTime.Today.ToString("yyyy-MM-dd");
 }
 
 <link rel="stylesheet" href="~/css/class-details.css" />
@@ -18,35 +27,40 @@
     <!-- Header Card -->
     <div class="class-header-card">
         <h4>Grade @Model.Grade - @Model.Place</h4>
-        <p>@Model.ClassStudents.Count student(s)</p>
+        <p>@studentCount student(s)</p>
     </div>
 
     <!-- Tabs -->
     <div class="custom-tabs">
-        <a class="tab-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Class" ? "active" : "")"
-           asp-controller="Class" asp-action="Details" asp-route-id="@Model.Id">Attendance</a>
+
+        <!-- ✅ FIX: Attendance tab should go to AttendanceController -->
+        <a class="tab-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Attendance" ? "active" : "")"
+           asp-controller="Attendance" asp-action="Index" asp-route-classId="@Model.Id">
+            Attendance
+        </a>
 
         <a class="tab-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Homework" ? "active" : "")"
-           asp-controller="Homework" asp-action="Index" asp-route-classId="@Model.Id">Homework</a>
+           asp-controller="Homework" asp-action="Index" asp-route-classId="@Model.Id">
+            Homework
+        </a>
 
         <a class="tab-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Notes" ? "active" : "")"
-           asp-controller="Notes" asp-action="Index" asp-route-classId="@Model.Id">Notes</a>
+           asp-controller="Notes" asp-action="Index" asp-route-classId="@Model.Id">
+            Notes
+        </a>
 
         <a class="tab-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Results" ? "active" : "")"
-           asp-controller="Results" asp-action="Index" asp-route-classId="@Model.Id">Results</a>
+           asp-controller="Results" asp-action="Index" asp-route-classId="@Model.Id">
+            Results
+        </a>
 
-        <a class="tab-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Student" ? "active" : "")"
-           asp-controller="Addstudent" asp-action="Index" asp-route-classId="@Model.Id">Student</a>
+        <a class="tab-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Addstudent" ? "active" : "")"
+           asp-controller="Addstudent" asp-action="Index" asp-route-classId="@Model.Id">
+            Student
+        </a>
     </div>
 
-    @{
-        // Default values (until you calculate from DB)
-        var presentCount = 0;
-        var absentCount = Model.ClassStudents.Count;
-        var percent = Model.ClassStudents.Count == 0 ? 0 : (presentCount * 100 / Model.ClassStudents.Count);
-    }
-
-    <!-- Stats cards (like image 3) -->
+    <!-- Stats cards -->
     <div class="att-stats">
         <div class="stat-card">
             <div class="stat-title">Present</div>
@@ -64,7 +78,38 @@
         </div>
     </div>
 
-    <!-- Attendance form -->
+    <!-- ✅ Enroll by Student Code -->
+    <form asp-controller="Class"
+          asp-action="EnrollByCode"
+          method="post"
+          class="mt-3">
+
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="classId" value="@Model.Id" />
+
+        <div class="d-flex gap-2">
+            <input name="studentCode"
+                   class="form-control"
+                   placeholder="Enter Student Code (STD-2026-AB12)"
+                   required />
+            <button type="submit" class="btn btn-dark">Enroll</button>
+        </div>
+    </form>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger mt-2">@TempData["Error"]</div>
+    }
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success mt-2">@TempData["Success"]</div>
+    }
+    @if (TempData["Info"] != null)
+    {
+        <div class="alert alert-info mt-2">@TempData["Info"]</div>
+    }
+
+    <!-- Attendance form (your existing design) -->
     <form asp-controller="Attendance"
           asp-action="Save"
           method="post"
@@ -72,7 +117,7 @@
 
         <input type="hidden" name="classId" value="@Model.Id" />
 
-        <!-- ONE toolbar only (like image 2) -->
+        <!-- Toolbar -->
         <div class="att-toolbar">
             <div class="att-date">
                 <label class="fw-semibold">Date</label>
@@ -87,11 +132,12 @@
                     💾 Save
                 </button>
 
-                <!-- Report button (for now this can just link to a future action) -->
+                <!-- ✅ FIX: Report needs date -->
                 <a class="btn btn-outline-secondary att-report-btn"
                    asp-controller="Attendance"
                    asp-action="Report"
-                   asp-route-classId="@Model.Id">
+                   asp-route-classId="@Model.Id"
+                   asp-route-date="@reportDate">
                     ⬇ Report
                 </a>
             </div>
@@ -99,20 +145,30 @@
 
         <hr class="att-divider" />
 
-        <!-- Student List (ONLY ONCE) -->
-        @foreach (var cs in Model.ClassStudents)
+        <!-- Student List -->
+        @if (Model.ClassStudents == null || Model.ClassStudents.Count == 0)
         {
-            <div class="student-row">
-                <div>
-                    <div class="student-name">@(cs.Student?.Name ?? "Unknown")</div>
-                    <div class="student-code">@(cs.Student?.StudentCode ?? "N/A")</div>
-                </div>
-
-                <input type="checkbox"
-                       name="presentStudentIds"
-                       value="@cs.StudentId"
-                       checked />
+            <div class="alert alert-info">
+                No students enrolled yet.
             </div>
         }
+        else
+        {
+            @foreach (var cs in Model.ClassStudents)
+            {
+                <div class="student-row">
+                    <div>
+                        <div class="student-name">@(cs.Student?.Name ?? "Unknown")</div>
+                        <div class="student-code">@(cs.Student?.StudentCode ?? "N/A")</div>
+                    </div>
+
+                    <input type="checkbox"
+                           name="presentStudentIds"
+                           value="@cs.StudentId"
+                           checked />
+                </div>
+            }
+        }
     </form>
+
 </div>

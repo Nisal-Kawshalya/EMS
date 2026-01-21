@@ -13,6 +13,8 @@ namespace EMS.Models
         public int UserId { get; set; }
         public required string StudentCode { get; set; }
 
+        public string? ProfileImagePath { get; set; }
+
         [Required(ErrorMessage = "Name can not be empty")]
         [StringLength(100, MinimumLength = 5)]
         [Display(Name = "Enter Your Full Name")]

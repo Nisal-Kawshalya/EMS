@@ -1,0 +1,102 @@
+﻿@{
+    Layout = null;
+    var title = ViewData["Title"] ?? "EMS";
+
+    string? avatarUrl = null;
+    try
+    {
+        var http = ViewContext.HttpContext;
+        var userId = http.Session.GetInt32("UserId");
+        var role = http.Session.GetString("Role");
+        if (userId != null && role == "Student")
+        {
+            var db = http.RequestServices.GetService(typeof(EMS.Data.ApplicationDbContext)) as EMS.Data.ApplicationDbContext;
+            avatarUrl = db?.Students.Where(s => s.UserId == userId.Value).Select(s => s.ProfileImagePath).FirstOrDefault();
+        }
+    }
+    catch { }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@title - EMS</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/student-shell.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+</head>
+<body class="student-shell">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-box">
+                <div class="logo-icon">📚</div>
+                <span class="logo-text">EMS</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a asp-controller="Student" asp-action="Dashboard" class="nav-item">
+                <span class="nav-ic">📊</span>
+                <span class="nav-txt">Dashboard</span>
+            </a>
+            <a asp-controller="Student" asp-action="Profile" class="nav-item">
+                <span class="nav-ic">👤</span>
+                <span class="nav-txt">Profile</span>
+            </a>
+            <a asp-controller="Parent" asp-action="Index" class="nav-item">
+                <span class="nav-ic">👨‍👩‍👧</span>
+                <span class="nav-txt">Parent View</span>
+            </a>
+        </nav>
+
+        <a asp-controller="Account" asp-action="Logout" class="logout">
+            <span class="nav-ic">🚪</span>
+            <span class="nav-txt">Logout</span>
+        </a>
+    </aside>
+
+    <div class="main">
+        <header class="topbar">
+            <button class="toggle-btn" id="sidebarToggle">☰</button>
+            <div class="topbar-title">@title</div>
+            <a asp-controller="Student" asp-action="Profile" class="topbar-avatar" title="Profile">
+                @if (!string.IsNullOrWhiteSpace(avatarUrl))
+                {
+                    <img src="@avatarUrl" alt="Profile" class="topbar-avatar-img" />
+                }
+                else
+                {
+                    <span class="topbar-avatar-ic">👤</span>
+                }
+            </a>
+        </header>
+
+        <div class="content">
+            @RenderBody()
+        </div>
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('sidebarToggle').addEventListener('click', function () {
+            document.querySelector('.student-shell').classList.toggle('sidebar-collapsed');
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const currentPath = window.location.pathname.toLowerCase();
+            document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
+                const href = (item.getAttribute('href') || '').toLowerCase();
+                if (href && currentPath.startsWith(href)) {
+                    document.querySelectorAll('.sidebar-nav .nav-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

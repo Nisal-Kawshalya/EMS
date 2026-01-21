@@ -12,7 +12,6 @@ public class ClassController : Controller
         _context = context;
     }
 
-
     public IActionResult Index()
     {
         int userId = HttpContext.Session.GetInt32("UserId")!.Value;
@@ -27,7 +26,6 @@ public class ClassController : Controller
 
         return View(classes);
     }
-
 
     public IActionResult Create()
     {
@@ -49,7 +47,6 @@ public class ClassController : Controller
         _context.SaveChanges();
 
         return RedirectToAction("Index", "Class");
-
     }
 
     public IActionResult Details(int id)
@@ -63,7 +60,7 @@ public class ClassController : Controller
         return View(cls);
     }
 
-    // ✅ DELETE CLASS (with confirmation modal)
+    // ✅ DELETE CLASS
     [HttpPost]
     public IActionResult Delete(int id)
     {
@@ -86,4 +83,45 @@ public class ClassController : Controller
         return RedirectToAction("Index", "Class");
     }
 
+    // ✅ ENROLL STUDENT BY STUDENT CODE
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult EnrollByCode(int classId, string studentCode)
+    {
+        int userId = HttpContext.Session.GetInt32("UserId")!.Value;
+        var teacher = _context.Teachers.FirstOrDefault(t => t.UserId == userId);
+        if (teacher == null) return RedirectToAction("Login", "Account");
+
+        studentCode = (studentCode ?? "").Trim();
+
+        var student = _context.Students.FirstOrDefault(s => s.StudentCode == studentCode);
+        if (student == null)
+        {
+            TempData["Error"] = "Student code not found.";
+            return RedirectToAction("Details", new { id = classId });
+        }
+
+        // ensure class belongs to this teacher
+        var cls = _context.Classes.FirstOrDefault(c => c.Id == classId && c.TeacherId == teacher.Id);
+        if (cls == null) return NotFound();
+
+        // prevent duplicates
+        bool already = _context.ClassStudents.Any(cs => cs.ClassId == classId && cs.StudentId == student.Id);
+        if (!already)
+        {
+            _context.ClassStudents.Add(new ClassStudent
+            {
+                ClassId = classId,
+                StudentId = student.Id
+            });
+            _context.SaveChanges();
+            TempData["Success"] = $"Enrolled: {student.Name} ({student.StudentCode})";
+        }
+        else
+        {
+            TempData["Info"] = "This student is already enrolled.";
+        }
+
+        return RedirectToAction("Details", new { id = classId });
+    }
 }

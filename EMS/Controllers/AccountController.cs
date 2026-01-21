@@ -3,6 +3,7 @@ using EMS.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using System.Text;
+using EMS.Helpers; // ✅ add
 
 namespace EMS.Controllers
 {
@@ -19,7 +20,7 @@ namespace EMS.Controllers
         public IActionResult Register() => View();
 
         [HttpPost]
-        public IActionResult Register(string email, string password, string role,
+        public async Task<IActionResult> Register(string email, string password, string role,
                                       string name, string phone)
         {
             if (string.IsNullOrWhiteSpace(email) ||
@@ -50,10 +51,13 @@ namespace EMS.Controllers
 
             if (role == "Student")
             {
+                // ✅ generate UNIQUE student code
+                var code = await StudentCodeGenerator.GenerateStudentCodeAsync(_context);
+
                 _context.Students.Add(new Student
                 {
                     UserId = user.Id,
-                    StudentCode = "STD-" + Guid.NewGuid().ToString("N")[..6],
+                    StudentCode = code,
                     Name = name,
                     PhoneNumber = phone
                 });
@@ -103,7 +107,7 @@ namespace EMS.Controllers
 
             return user.Role == "Teacher"
                 ? RedirectToAction("Dashboard", "Teacher")
-                : RedirectToAction("Dashboard", "Student"); 
+                : RedirectToAction("Dashboard", "Student");
         }
 
         [HttpGet]

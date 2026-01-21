@@ -1,0 +1,229 @@
+@model EMS.Models.Class
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Class";
+    var student = ViewBag.Student as EMS.Models.Student;
+    var studentCode = (string?)ViewBag.StudentCode;
+    var tab = (string?)ViewBag.ActiveTab ?? "Homework";
+    var attendance = ViewBag.Attendance as List<EMS.Models.Attendence> ?? new List<EMS.Models.Attendence>();
+    var results = ViewBag.Results as List<EMS.Models.Result> ?? new List<EMS.Models.Result>();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EMS</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/parent-class.css" asp-append-version="true" />
+</head>
+<body>
+
+<div class="parent-class-page">
+    <div class="parent-wrap">
+
+        <div class="parent-hero">
+            <div class="parent-hero-top">
+                <div>
+                    <h1>@Model.Subject</h1>
+                    <div class="meta">
+                        Student: <b>@student?.Name</b> • Grade <b>@Model.Grade</b> • <b>@Model.Place</b> • Teacher: <b>@Model.Teacher?.Name</b>
+                    </div>
+                </div>
+
+                <div class="parent-actions">
+                    <a class="parent-btn" asp-controller="Parent" asp-action="Index">? Change Code</a>
+                    <a class="parent-btn" asp-controller="Parent" asp-action="Class" asp-route-studentCode="@studentCode" asp-route-classId="@Model.Id">Refresh</a>
+                    <a class="parent-btn" asp-controller="Home" asp-action="Index">Home</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="parent-tabbar">
+            <a class="@(tab == "Homework" ? "active" : "")" asp-controller="Parent" asp-action="Class" asp-route-studentCode="@studentCode" asp-route-classId="@Model.Id" asp-route-tab="Homework">Homework</a>
+            <a class="@(tab == "Notes" ? "active" : "")" asp-controller="Parent" asp-action="Class" asp-route-studentCode="@studentCode" asp-route-classId="@Model.Id" asp-route-tab="Notes">Notes</a>
+            <a class="@(tab == "Attendance" ? "active" : "")" asp-controller="Parent" asp-action="Class" asp-route-studentCode="@studentCode" asp-route-classId="@Model.Id" asp-route-tab="Attendance">Attendance</a>
+            <a class="@(tab == "Results" ? "active" : "")" asp-controller="Parent" asp-action="Class" asp-route-studentCode="@studentCode" asp-route-classId="@Model.Id" asp-route-tab="Results">Results</a>
+        </div>
+
+        @if (tab == "Homework")
+        {
+            if (Model.Homeworks != null && Model.Homeworks.Count > 0)
+            {
+                <div class="parent-list">
+                    @foreach (var hw in Model.Homeworks.OrderByDescending(h => h.CreatedDate))
+                    {
+                        <div class="parent-item">
+                            <div>
+                                <p class="title">@hw.Title</p>
+                                <div class="meta">Due: @hw.DueDate.ToString("yyyy-MM-dd")</div>
+                                @if (!string.IsNullOrWhiteSpace(hw.Description))
+                                {
+                                    <div class="meta">@hw.Description</div>
+                                }
+                            </div>
+
+                            @if (!string.IsNullOrWhiteSpace(hw.AssssignmentFile))
+                            {
+                                <a class="parent-download" href="@hw.AssssignmentFile">Download</a>
+                            }
+                            else
+                            {
+                                <span class="parent-pill">No file</span>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="parent-empty">No homework available.</div>
+            }
+        }
+
+        @if (tab == "Notes")
+        {
+            if (Model.Notes != null && Model.Notes.Count > 0)
+            {
+                <div class="parent-list">
+                    @foreach (var note in Model.Notes.OrderByDescending(n => n.Createddate))
+                    {
+                        <div class="parent-item">
+                            <div>
+                                <p class="title">@note.Title</p>
+                                <div class="meta">Posted: @note.Createddate.ToString("yyyy-MM-dd")</div>
+                            </div>
+
+                            @if (!string.IsNullOrWhiteSpace(note.NotesFile))
+                            {
+                                <a class="parent-download" href="@note.NotesFile">Download</a>
+                            }
+                            else
+                            {
+                                <span class="parent-pill">No file</span>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="parent-empty">No notes available.</div>
+            }
+        }
+
+        @if (tab == "Attendance")
+        {
+            if (attendance.Count > 0)
+            {
+                var present = attendance.Count(a => a.IsPresent);
+                var total = attendance.Count;
+                var percent = total == 0 ? 0 : (int)Math.Round(present * 100.0 / total);
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="text-muted">Total Days</div>
+                                <div style="font-size: 28px; font-weight: 900;">@total</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="text-muted">Present</div>
+                                <div style="font-size: 28px; font-weight: 900;">@present</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="text-muted">Rate</div>
+                                <div style="font-size: 28px; font-weight: 900;"><text>@percent%</text></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm">
+                    <div class="card-body p-0">
+                        <table class="table table-striped mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 180px;">Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var a in attendance)
+                                {
+                                    <tr>
+                                        <td>@a.Date.ToString("yyyy-MM-dd")</td>
+                                        <td>
+                                            @if (a.IsPresent)
+                                            {
+                                                <span class="badge bg-success">Present</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Absent</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="parent-empty">No attendance records found for this class yet.</div>
+            }
+        }
+
+        @if (tab == "Results")
+        {
+            if (results.Count > 0)
+            {
+                <div class="card shadow-sm">
+                    <div class="card-body p-0">
+                        <table class="table table-striped mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 260px;">Exam</th>
+                                    <th style="width: 180px;">Date</th>
+                                    <th style="width: 120px;">Marks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var r in results)
+                                {
+                                    <tr>
+                                        <td>@r.ExamTitle</td>
+                                        <td>@r.ExamDate.ToString("yyyy-MM-dd")</td>
+                                        <td><span class="badge bg-primary">@r.Marks</span></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="parent-empty">No results published for this class yet.</div>
+            }
+        }
+
+    </div>
+</div>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

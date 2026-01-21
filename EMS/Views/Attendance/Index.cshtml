@@ -1,6 +1,10 @@
 ﻿@model List<EMS.Models.Student>
 
 @{
+    ViewData["Title"] = "Attendance";
+    // Ensure we are inside the teacher dashboard shell
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+
     var cls = (EMS.Models.Class)ViewBag.Class;
     var selectedDate = (DateTime)ViewBag.SelectedDate;
 
@@ -11,7 +15,9 @@
     var statusMap = (Dictionary<int, bool>)ViewBag.StatusMap;
 }
 
-<link rel="stylesheet" href="~/css/attendance.css" asp-append-version="true" />
+@section Styles {
+    <link rel="stylesheet" href="~/css/attendance.css" asp-append-version="true" />
+}
 
 <div class="attendance-container">
 

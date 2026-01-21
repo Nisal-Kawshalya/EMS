@@ -6,20 +6,26 @@
     var cls = ViewBag.Class as EMS.Models.Class;
 }
 
-<div class="container" style="max-width: 1100px;">
-    <div class="d-flex align-items-center justify-content-between mb-3">
-        <div>
-            <h3 class="mb-1">My Attendance</h3>
-            <div class="text-muted">
-                Class: <b>@cls?.Subject</b> | Grade: <b>@cls?.Grade</b> | Teacher: <b>@cls?.Teacher?.Name</b>
+@section Styles {
+    <link rel="stylesheet" href="~/css/student-class.css" asp-append-version="true" />
+}
+
+<div class="student-class">
+    <a class="backlink" asp-controller="Student" asp-action="Dashboard">? Back to Classes</a>
+
+    <div class="class-hero">
+        <div class="class-hero-top">
+            <div>
+                <h1 class="class-title">My Attendance</h1>
+                <div class="class-subtitle">@cls?.Subject • Grade <b>@cls?.Grade</b> • <b>@cls?.Place</b> • Teacher: <b>@cls?.Teacher?.Name</b></div>
             </div>
+            <div class="tag">Attendance</div>
         </div>
-        <a asp-controller="Student" asp-action="Dashboard" class="btn btn-outline-secondary">Back</a>
     </div>
 
     @if (Model == null || Model.Count == 0)
     {
-        <div class="alert alert-info">No attendance records found for this class yet.</div>
+        <div class="empty">No attendance records found for this class yet.</div>
     }
     else
     {
@@ -29,33 +35,34 @@
 
         <div class="row g-3 mb-3">
             <div class="col-md-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <div class="text-muted">Total Days</div>
-                        <div style="font-size: 28px; font-weight: 800;">@total</div>
+                <div class="item" style="justify-content: flex-start;">
+                    <div>
+                        <p class="item-title">Total Days</p>
+                        <div style="font-size: 30px; font-weight: 900;">@total</div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <div class="text-muted">Present</div>
-                        <div style="font-size: 28px; font-weight: 800;">@presentCount</div>
+                <div class="item" style="justify-content: flex-start;">
+                    <div>
+                        <p class="item-title">Present</p>
+                        <div style="font-size: 30px; font-weight: 900; color: #16a34a;">@presentCount</div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <div class="text-muted">Rate</div>
-                        <div style="font-size: 28px; font-weight: 800;"><text>@percent%</text></div>
+                <div class="item" style="justify-content: flex-start;">
+                    <div>
+                        <p class="item-title">Rate</p>
+                        <div style="font-size: 30px; font-weight: 900;">@percent%</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="card shadow-sm">
-            <div class="card-body p-0">
+        <div class="item" style="display:block; padding:0; overflow:hidden;">
+            <div class="p-3" style="border-bottom:1px solid #e5e7eb; font-weight:900;">Attendance List</div>
+            <div class="table-responsive">
                 <table class="table table-striped mb-0">
                     <thead class="table-light">
                         <tr>

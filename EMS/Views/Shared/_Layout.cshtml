@@ -4,32 +4,17 @@
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - EMS</title>
 
-    @RenderSection("Styles", required: false)
-
-
     <!-- BOOTSTRAP (REQUIRED) -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
     <!-- GLOBAL STYLES -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
-    <!-- OTHER PAGES -->
-    <link rel="stylesheet" href="~/css/landing.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/aboutus.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/site.css" />
-
-
-
-    <!-- DASHBOARD (LOAD LAST!) -->
-    <link rel="stylesheet"
-          href="~/css/teacher-dashboard.css"
-          asp-append-version="true" />
+    @RenderSection("Styles", required: false)
 </head>
 <body>
 
-    <!-- NAVBAR (Matching Teacher Dashboard Style) -->
+    <!-- NAVBAR (Public) -->
     <nav class="landing-navbar">
         <div class="navbar-container">
             <div class="navbar-brand">
@@ -40,18 +25,14 @@
             </div>
 
             <div class="navbar-actions">
-                <a class="login-btn" href="/Account/Login">
-                    👤 Login
-                </a>
+                <a class="login-btn" href="/Account/Login">👤 Login</a>
             </div>
         </div>
     </nav>
 
-
     <!-- PAGE CONTENT -->
     @RenderBody()
 
-    <!-- BOOTSTRAP JS (OPTIONAL BUT GOOD) -->
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @RenderSection("Scripts", required: false)
 

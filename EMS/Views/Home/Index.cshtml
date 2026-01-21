@@ -1,141 +1,109 @@
 ﻿@{
     ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>@ViewData["Title"] - EMS</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+@section Styles {
     <link rel="stylesheet" href="~/css/landing-new.css" asp-append-version="true" />
-</head>
-<body>
-    <!-- NAVBAR (Matching Teacher Dashboard Style) -->
-    <nav class="landing-navbar">
-        <div class="navbar-container">
-            <div class="navbar-brand">
-                <div class="logo-box">
-                    <div class="logo-icon">📚</div>
-                    <span class="logo-text">EMS</span>
-                </div>
-            </div>
+}
 
-            <div class="navbar-actions">
-                <a asp-controller="Account" asp-action="Login" class="login-btn">
-                    👤 Login
-                </a>
-            </div>
+<!-- HERO SECTION -->
+<div class="landing-hero">
+    <div class="hero-content">
+        <h1>Welcome to EMS</h1>
+        <p class="hero-subtitle">Connecting Teachers, Students, and Parents for Better Education</p>
+
+        <p class="hero-description">
+            A modern education management system built to bring all stakeholders together.
+            Manage classes, track attendance, and share results in real-time.
+        </p>
+
+        <div class="hero-buttons">
+            <a asp-controller="Account" asp-action="Login" class="btn-primary">Get Started</a>
+            <a asp-controller="Parent" asp-action="Index" class="btn-secondary">Parent View</a>
         </div>
-    </nav>
+    </div>
+</div>
 
-    <!-- HERO SECTION -->
-    <div class="landing-hero">
-        <div class="hero-content">
-            <h1>Welcome to EMS</h1>
-            <p class="hero-subtitle">Connecting Teachers, Students, and Parents for Better Education</p>
+<!-- FEATURES SECTION -->
+<div class="features-section">
+    <div class="features-container">
+        <h2>Why Choose EMS?</h2>
 
-            <p class="hero-description">
-                A modern education management system built to bring all stakeholders together.
-                Manage classes, track attendance, and share results in real-time.
-            </p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>Manage Classes</h3>
+                <p>Organize students by grade and location with ease. Create and manage multiple classes effortlessly.</p>
+            </div>
 
-            <div class="hero-buttons">
-                <a asp-controller="Account" asp-action="Login" class="btn-primary">
-                    Get Started
-                </a>
-                <a asp-controller="Parent" asp-action="Index" class="btn-secondary">
-                    Parent View
-                </a>
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h3>Track Attendance</h3>
+                <p>Monitor student attendance and automatically send updates to parents in real-time.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Share Results</h3>
+                <p>Publish exam results and announcements instantly to all stakeholders.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Share Resources</h3>
+                <p>Upload homework assignments and class notes for student access.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔔</div>
+                <h3>Communication</h3>
+                <p>Keep everyone informed with instant notifications and updates.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔐</div>
+                <h3>Secure & Private</h3>
+                <p>Your data is protected with secure authentication and access controls.</p>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- FEATURES SECTION -->
-    <div class="features-section">
-        <div class="features-container">
-            <h2>Why Choose EMS?</h2>
+<!-- CTA SECTION -->
+<div class="cta-section">
+    <div class="cta-content">
+        <h2>Ready to Transform Education?</h2>
+        <p>Join thousands of educators using EMS to improve student outcomes</p>
+        <a asp-controller="Account" asp-action="Register" class="btn-primary">Sign Up Today</a>
+    </div>
+</div>
 
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">👥</div>
-                    <h3>Manage Classes</h3>
-                    <p>Organize students by grade and location with ease. Create and manage multiple classes effortlessly.</p>
-                </div>
+<!-- FOOTER -->
+<footer class="landing-footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h4>EMS</h4>
+            <p>Education Management System</p>
+        </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">📋</div>
-                    <h3>Track Attendance</h3>
-                    <p>Monitor student attendance and automatically send updates to parents in real-time.</p>
-                </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li><a asp-controller="Home" asp-action="About">About Us</a></li>
+                <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+            </ul>
+        </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>Share Results</h3>
-                    <p>Publish exam results and announcements instantly to all stakeholders.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">📚</div>
-                    <h3>Share Resources</h3>
-                    <p>Upload homework assignments and class notes for student access.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🔔</div>
-                    <h3>Communication</h3>
-                    <p>Keep everyone informed with instant notifications and updates.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🔐</div>
-                    <h3>Secure & Private</h3>
-                    <p>Your data is protected with secure authentication and access controls.</p>
-                </div>
-            </div>
+        <div class="footer-section">
+            <h4>Contact</h4>
+            <p>Email: info@ems.edu</p>
+            <p>Phone: +1 (555) 123-4567</p>
         </div>
     </div>
 
-    <!-- CTA SECTION -->
-    <div class="cta-section">
-        <div class="cta-content">
-            <h2>Ready to Transform Education?</h2>
-            <p>Join thousands of educators using EMS to improve student outcomes</p>
-            <a asp-controller="Account" asp-action="Register" class="btn-primary">
-                Sign Up Today
-            </a>
-        </div>
+    <div class="footer-bottom">
+        <p>&copy; @DateTime.Now.Year Education Management System. All rights reserved.</p>
     </div>
-
-    <!-- FOOTER -->
-    <footer class="landing-footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>EMS</h4>
-                <p>Education Management System</p>
-            </div>
-
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-controller="Home" asp-action="About">About Us</a></li>
-                    <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4>Contact</h4>
-                <p>Email: info@ems.edu</p>
-                <p>Phone: +1 (555) 123-4567</p>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; @DateTime.Now.Year Education Management System. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</footer>

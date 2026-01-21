@@ -1,0 +1,115 @@
+/* ===================================
+   PARENT PORTAL (Public) - Match Landing Style
+=================================== */
+
+.parent-page {
+    min-height: calc(100vh - 70px);
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #f6f7fb 0%, #eef2ff 100%);
+}
+
+.parent-card {
+    max-width: 560px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    overflow: hidden;
+}
+
+.parent-card-header {
+    padding: 26px 26px 18px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #fff;
+}
+
+.parent-title {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 800;
+    color: #111827;
+}
+
+.parent-subtitle {
+    margin: 8px 0 0;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.parent-card-body {
+    padding: 22px 26px 26px;
+}
+
+.parent-label {
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.parent-input {
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    padding: 0 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.parent-input:focus {
+    border-color: #003a8c;
+    box-shadow: 0 0 0 4px rgba(0, 58, 140, 0.12);
+}
+
+/* ? Primary action button (force EMS blue even with Bootstrap) */
+.parent-btn {
+    height: 48px;
+    border-radius: 12px;
+    background: #003a8c !important;
+    border: 2px solid #003a8c !important;
+    color: #fff !important;
+    font-weight: 800;
+    transition: 0.2s;
+}
+
+.parent-btn:hover {
+    background: #002d6b !important;
+    border-color: #002d6b !important;
+    transform: translateY(-1px);
+}
+
+/* Secondary / back */
+.parent-back {
+    height: 48px;
+    border-radius: 12px;
+    background: transparent !important;
+    border: 2px solid #003a8c !important;
+    color: #003a8c !important;
+    font-weight: 800;
+    transition: 0.2s;
+}
+
+.parent-back:hover {
+    background: #003a8c !important;
+    color: #fff !important;
+}
+
+.parent-help {
+    margin-top: 12px;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+@media (max-width: 480px) {
+    .parent-card-header {
+        padding: 20px 18px 14px;
+    }
+
+    .parent-card-body {
+        padding: 16px 18px 20px;
+    }
+
+    .parent-title {
+        font-size: 22px;
+    }
+}

@@ -1,24 +1,60 @@
 ﻿@{
+    Layout = null;
     ViewData["Title"] = "Parent Access";
 }
 
-<div class="container mt-5" style="max-width:500px;">
-    <h3>Parent Access</h3>
-    <p class="text-muted">Enter Student Code to view student details.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EMS</title>
 
-    @if (ViewBag.Error != null)
-    {
-        <div class="alert alert-danger">@ViewBag.Error</div>
-    }
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/parent.css" asp-append-version="true" />
+</head>
+<body>
 
-    <form method="post">
-        @Html.AntiForgeryToken()
+<div class="parent-page">
+    <div class="parent-card">
+        <div class="parent-card-header">
+            <div class="d-flex align-items-center justify-content-between" style="gap:12px;">
+                <div>
+                    <h1 class="parent-title">Parent Access</h1>
+                    <p class="parent-subtitle">Enter the Student Code to view student details, attendance, and results.</p>
+                </div>
+                <a asp-controller="Home" asp-action="Index" class="btn parent-back" style="white-space:nowrap;">← Back</a>
+            </div>
+        </div>
 
-        <input name="studentCode"
-               class="form-control mb-3"
-               placeholder="STD-2026-AB12"
-               required />
+        <div class="parent-card-body">
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">@ViewBag.Error</div>
+            }
 
-        <button class="btn btn-dark w-100" type="submit">View Student</button>
-    </form>
+            <form method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <div class="parent-label">Student Code</div>
+                    <input name="studentCode"
+                           class="form-control parent-input"
+                           placeholder="STD-2026-AB12"
+                           autocomplete="off"
+                           required />
+                </div>
+
+                <button class="btn parent-btn w-100" type="submit">View Student</button>
+
+                <div class="parent-help">
+                    Tip: Ask the teacher or student for the Student Code.
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

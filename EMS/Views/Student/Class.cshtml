@@ -1,132 +1,134 @@
 ﻿@model EMS.Models.Class
 @{
+    ViewData["Title"] = "Class Details";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
     string tab = ViewBag.ActiveTab ?? "Homework";
+
+    var http = ViewContext.HttpContext;
+    var studentUserId = http.Session.GetInt32("UserId");
+    // we don't have StudentId here; we will match through navigation if loaded (Student may be null).
+    // For safety, results display will be limited in controller later if needed.
 }
 
-<div class="container mt-4">
+@section Styles {
+    <link rel="stylesheet" href="~/css/student-class.css" asp-append-version="true" />
+}
 
-    <a asp-action="Dashboard" asp-controller="Student">
-        ← Back to Classes
-    </a>
+<div class="student-class">
+    <a class="backlink" asp-controller="Student" asp-action="Dashboard">← Back to Classes</a>
 
-    <!-- CLASS HEADER -->
-    <div class="card mt-3 mb-4 shadow-sm">
-        <div class="card-body">
-            <h4>Grade @Model.Grade - @Model.Place</h4>
-            <p class="text-muted">
-                Teacher: @Model.Teacher?.Name
-            </p>
+    <div class="class-hero">
+        <div class="class-hero-top">
+            <div>
+                <h1 class="class-title">@Model.Subject</h1>
+                <div class="class-subtitle">Grade <b>@Model.Grade</b> • <b>@Model.Place</b> • Teacher: <b>@Model.Teacher?.Name</b></div>
+            </div>
+            <div class="tag">Class #@Model.Id</div>
         </div>
     </div>
 
-    <!-- TABS -->
-    <ul class="nav nav-tabs mb-3">
+    <div class="tabbar">
+        <a class="@(tab == "Homework" ? "active" : "")"
+           asp-controller="Student" asp-action="Class"
+           asp-route-classId="@Model.Id"
+           asp-route-tab="Homework">Homework</a>
 
-        <li class="nav-item">
-            <a class="nav-link @(tab == "Homework" ? "active" : "")"
-               asp-action="Class"
-               asp-route-classId="@Model.Id"
-               asp-route-tab="Homework">
-                Homework
-            </a>
-        </li>
+        <a class="@(tab == "Notes" ? "active" : "")"
+           asp-controller="Student" asp-action="Class"
+           asp-route-classId="@Model.Id"
+           asp-route-tab="Notes">Notes</a>
 
-        <li class="nav-item">
-            <a class="nav-link @(tab == "Notes" ? "active" : "")"
-               asp-action="Class"
-               asp-route-classId="@Model.Id"
-               asp-route-tab="Notes">
-                Notes
-            </a>
-        </li>
+        <a class="@(tab == "Results" ? "active" : "")"
+           asp-controller="Student" asp-action="Class"
+           asp-route-classId="@Model.Id"
+           asp-route-tab="Results">Results</a>
+    </div>
 
-        <li class="nav-item">
-            <a class="nav-link @(tab == "Results" ? "active" : "")"
-               asp-action="Class"
-               asp-route-classId="@Model.Id"
-               asp-route-tab="Results">
-                Results
-            </a>
-        </li>
-
-    </ul>
-
-    <!-- HOMEWORK -->
     @if (tab == "Homework")
     {
         if (Model.Homeworks != null && Model.Homeworks.Any())
         {
-            foreach (var hw in Model.Homeworks)
-            {
-                <div class="card mb-3">
-                    <div class="card-body d-flex justify-content-between">
+            <div class="list">
+                @foreach (var hw in Model.Homeworks.OrderByDescending(h => h.CreatedDate))
+                {
+                    <div class="item">
                         <div>
-                            <strong>@hw.Title</strong><br />
-                            <small>Due: @hw.DueDate.ToShortDateString()</small>
+                            <p class="item-title">@hw.Title</p>
+                            <div class="item-meta">Due: @hw.DueDate.ToString("yyyy-MM-dd")</div>
                         </div>
 
-                        @if (!string.IsNullOrEmpty(hw.AssssignmentFile))
+                        @if (!string.IsNullOrWhiteSpace(hw.AssssignmentFile))
                         {
-                            <a href="@hw.AssssignmentFile"
-                               class="btn btn-outline-secondary">
-                                Download
-                            </a>
+                            <a class="download" href="@hw.AssssignmentFile">Download</a>
+                        }
+                        else
+                        {
+                            <span class="pill">No file</span>
                         }
                     </div>
-                </div>
-            }
+                }
+            </div>
         }
         else
         {
-            <div class="alert alert-info">No homework available.</div>
+            <div class="empty">No homework available.</div>
         }
     }
 
-    <!-- NOTES -->
     @if (tab == "Notes")
     {
         if (Model.Notes != null && Model.Notes.Any())
         {
-            foreach (var note in Model.Notes)
-            {
-                <div class="card mb-3">
-                    <div class="card-body d-flex justify-content-between">
-                        <strong>@note.Title</strong>
-                        <a href="@note.NotesFile"
-                           class="btn btn-outline-secondary">
-                            Download
-                        </a>
+            <div class="list">
+                @foreach (var note in Model.Notes.OrderByDescending(n => n.Createddate))
+                {
+                    <div class="item">
+                        <div>
+                            <p class="item-title">@note.Title</p>
+                            <div class="item-meta">Posted: @note.Createddate.ToString("yyyy-MM-dd")</div>
+                        </div>
+
+                        @if (!string.IsNullOrWhiteSpace(note.NotesFile))
+                        {
+                            <a class="download" href="@note.NotesFile">Download</a>
+                        }
+                        else
+                        {
+                            <span class="pill">No file</span>
+                        }
                     </div>
-                </div>
-            }
+                }
+            </div>
         }
         else
         {
-            <div class="alert alert-info">No notes available.</div>
+            <div class="empty">No notes available.</div>
         }
     }
 
-    <!-- RESULTS -->
     @if (tab == "Results")
     {
-        if (Model.Results != null && Model.Results.Any())
+        // Prefer results filtered in controller; as a fallback, show all if Student navigation isn't available.
+        var results = Model.Results?.OrderByDescending(r => r.ExamDate).ToList() ?? new List<EMS.Models.Result>();
+
+        if (results.Any())
         {
-            foreach (var r in Model.Results)
-            {
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <strong>@r.ExamTitle</strong><br />
-                        <span class="text-success">
-                            Marks: @r.Marks
-                        </span>
+            <div class="list">
+                @foreach (var r in results)
+                {
+                    <div class="item">
+                        <div>
+                            <p class="item-title">@r.ExamTitle</p>
+                            <div class="item-meta">Date: @r.ExamDate.ToString("yyyy-MM-dd")</div>
+                        </div>
+                        <span class="pill">Marks: <b>@r.Marks</b></span>
                     </div>
-                </div>
-            }
+                }
+            </div>
         }
         else
         {
-            <div class="alert alert-info">No results published yet.</div>
+            <div class="empty">No results published yet.</div>
         }
     }
-
 </div>

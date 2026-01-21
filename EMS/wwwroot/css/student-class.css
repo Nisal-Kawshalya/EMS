@@ -1,0 +1,172 @@
+/* ===================================
+   STUDENT CLASS DETAILS (Homework/Notes/Results)
+   Match student dashboard style
+=================================== */
+
+.student-class {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.student-class .backlink {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #003a8c;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.student-class .backlink:hover {
+    text-decoration: underline;
+}
+
+.student-class .class-hero {
+    border-radius: 16px;
+    padding: 22px;
+    color: #fff;
+    background: linear-gradient(135deg, #003a8c 0%, #002d6b 100%);
+    box-shadow: 0 10px 22px rgba(0, 58, 140, 0.18);
+    margin-bottom: 18px;
+}
+
+.student-class .class-hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 12px;
+}
+
+.student-class .class-title {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.15;
+}
+
+.student-class .class-subtitle {
+    margin: 8px 0 0;
+    opacity: 0.95;
+}
+
+.student-class .tag {
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.student-class .tabbar {
+    display: flex;
+    gap: 10px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 8px;
+    margin-bottom: 18px;
+}
+
+.student-class .tabbar a {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 800;
+    color: #374151;
+    padding: 10px 14px;
+    border-radius: 10px;
+}
+
+.student-class .tabbar a:hover {
+    background: #f3f4f6;
+}
+
+.student-class .tabbar a.active {
+    background: #dbe7ff;
+    color: #003a8c;
+}
+
+.student-class .list {
+    display: grid;
+    gap: 12px;
+}
+
+.student-class .item {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.student-class .item-title {
+    font-weight: 900;
+    color: #111827;
+    margin: 0;
+}
+
+.student-class .item-meta {
+    margin-top: 6px;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.student-class .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 800;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    color: #111827;
+}
+
+.student-class .download {
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 2px solid #003a8c;
+    background: transparent;
+    color: #003a8c;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.student-class .download:hover {
+    background: #003a8c;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.student-class .empty {
+    background: #fff;
+    border: 2px dashed #d1d5db;
+    border-radius: 14px;
+    padding: 24px;
+    color: #6b7280;
+}
+
+@media (max-width: 768px) {
+    .student-class .class-hero-top {
+        flex-direction: column;
+    }
+
+    .student-class .item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .student-class .download {
+        width: 100%;
+        text-align: center;
+    }
+}

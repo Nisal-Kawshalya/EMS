@@ -1,0 +1,147 @@
+/* ===================================
+   PARENT > STUDENT VIEW
+   Public page, consistent with Parent Access
+=================================== */
+
+.parent-student-page {
+    min-height: 100vh;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #f6f7fb 0%, #eef2ff 100%);
+}
+
+.parent-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.parent-header {
+    background: linear-gradient(135deg, #003a8c 0%, #002d6b 100%);
+    border-radius: 16px;
+    padding: 22px;
+    color: #fff;
+    box-shadow: 0 10px 22px rgba(0, 58, 140, 0.18);
+    margin-bottom: 18px;
+}
+
+.parent-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 12px;
+}
+
+.parent-header h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 900;
+}
+
+.parent-header .meta {
+    margin-top: 8px;
+    opacity: 0.95;
+}
+
+.parent-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.parent-btn-primary {
+    border-radius: 12px;
+    background: #fff;
+    border: 2px solid #fff;
+    color: #003a8c;
+    font-weight: 900;
+    padding: 10px 14px;
+    text-decoration: none;
+}
+
+.parent-btn-primary:hover {
+    background: #f3f4f6;
+}
+
+.parent-section-title {
+    font-size: 20px;
+    font-weight: 900;
+    color: #111827;
+    margin: 18px 0 10px;
+}
+
+.parent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+}
+
+.parent-class-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+    display: flex;
+    flex-direction: column;
+}
+
+.parent-class-card .head {
+    padding: 16px;
+    background: #f3f4f6;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.parent-class-card .head h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 900;
+    color: #111827;
+}
+
+.parent-class-card .badge {
+    background: #dbeafe;
+    color: #003a8c;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.parent-class-card .body {
+    padding: 16px;
+    color: #374151;
+}
+
+.parent-class-card .actions {
+    padding: 14px 16px;
+    border-top: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+.parent-class-card .view {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 12px;
+    border: 2px solid #003a8c;
+    background: #003a8c;
+    color: #fff;
+    font-weight: 900;
+    padding: 10px 14px;
+}
+
+.parent-class-card .view:hover {
+    background: #002d6b;
+    border-color: #002d6b;
+}
+
+.parent-empty {
+    background: #fff;
+    border: 2px dashed #d1d5db;
+    border-radius: 16px;
+    padding: 22px;
+    color: #6b7280;
+}

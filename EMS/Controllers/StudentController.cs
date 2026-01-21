@@ -116,7 +116,7 @@ namespace EMS.Controllers
             return RedirectToAction("Profile");
         }
 
-        // 📘 CLASS PAGE (Homework / Notes / Results) - keep your logic
+        // 📘 CLASS PAGE (Homework / Notes / Results)
         public IActionResult Class(int classId, string tab = "Homework")
         {
             int? userId = HttpContext.Session.GetInt32("UserId");
@@ -136,7 +136,7 @@ namespace EMS.Controllers
                 .Include(c => c.Teacher)
                 .Include(c => c.Homeworks)
                 .Include(c => c.Notes)
-                .Include(c => c.Results)
+                .Include(c => c.Results.Where(r => r.StudentId == student.Id))
                 .FirstOrDefault(c => c.Id == classId);
 
             if (cls == null)

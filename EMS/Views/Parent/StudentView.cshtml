@@ -1,36 +1,81 @@
 ﻿@model EMS.Models.Student
 
 @{
-    ViewData["Title"] = "Student Info";
+    Layout = null;
+    ViewData["Title"] = "Student";
 }
 
-<div class="container mt-4">
-    <h3>@Model.Name</h3>
-    <p><b>Student Code:</b> @Model.StudentCode</p>
-    <p><b>Phone:</b> @Model.PhoneNumber</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EMS</title>
 
-    <hr />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/parent-student.css" asp-append-version="true" />
+</head>
+<body>
 
-    <h5>Enrolled Classes</h5>
+<div class="parent-student-page">
+    <div class="parent-wrap">
 
-    @if (Model.ClassStudents == null || Model.ClassStudents.Count == 0)
-    {
-        <div class="alert alert-info">No enrolled classes.</div>
-    }
-    else
-    {
-        <div class="row">
-            @foreach (var cs in Model.ClassStudents)
-            {
-                <div class="col-md-4 mb-3">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h6>Grade @cs.Class?.Grade - @cs.Class?.Place</h6>
-                            <p class="text-muted mb-0">Teacher: @cs.Class?.Teacher?.Name</p>
-                        </div>
+        <div class="parent-header">
+            <div class="parent-header-top">
+                <div>
+                    <h1>@Model.Name</h1>
+                    <div class="meta">
+                        Student Code: <b>@Model.StudentCode</b> • Phone: <b>@Model.PhoneNumber</b>
                     </div>
                 </div>
-            }
+
+                <div class="parent-actions">
+                    <a asp-controller="Parent" asp-action="Index" class="parent-btn-primary">← Change Code</a>
+                    <a asp-controller="Home" asp-action="Index" class="parent-btn-primary">Home</a>
+                </div>
+            </div>
         </div>
-    }
+
+        <div class="parent-section-title">Enrolled Classes</div>
+
+        @if (Model.ClassStudents == null || Model.ClassStudents.Count == 0)
+        {
+            <div class="parent-empty">No enrolled classes.</div>
+        }
+        else
+        {
+            <div class="parent-grid">
+                @foreach (var cs in Model.ClassStudents)
+                {
+                    var c = cs.Class;
+                    if (c == null) { continue; }
+
+                    <div class="parent-class-card">
+                        <div class="head">
+                            <h3>@c.Subject</h3>
+                            <span class="badge">Grade @c.Grade</span>
+                        </div>
+                        <div class="body">
+                            <div><b>Location:</b> @c.Place</div>
+                            <div><b>Teacher:</b> @c.Teacher?.Name</div>
+                        </div>
+                        <div class="actions">
+                            <a class="view"
+                               asp-controller="Parent"
+                               asp-action="Class"
+                               asp-route-studentCode="@Model.StudentCode"
+                               asp-route-classId="@c.Id">
+                                View Class
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+    </div>
 </div>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

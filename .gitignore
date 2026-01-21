@@ -189,3 +189,46 @@ healthchecksdb
 MigrationBackup/
 .ionide/
 FodyWeavers.xsd
+
+
+# ========================
+# BUILD OUTPUT
+# ========================
+bin/
+obj/
+
+# ========================
+# VISUAL STUDIO
+# ========================
+.vs/
+*.user
+*.suo
+
+# ========================
+# OS FILES
+# ========================
+Thumbs.db
+.DS_Store
+
+# ========================
+# LOGS
+# ========================
+*.log
+
+# ========================
+# DATABASE FILES (IMPORTANT)
+# ========================
+*.db
+*.db-shm
+*.db-wal
+
+# ========================
+# ENV / SECRETS
+# ========================
+appsettings.Development.json
+.env
+
+# ========================
+# NODE (if used later)
+# ========================
+node_modules/

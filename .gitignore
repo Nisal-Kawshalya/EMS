@@ -232,3 +232,11 @@ appsettings.Development.json
 # NODE (if used later)
 # ========================
 node_modules/
+
+
+
+# ========================
+# USER UPLOADS (DO NOT COMMIT)
+# ========================
+wwwroot/uploads/
+EMS/wwwroot/uploads/
